@@ -19,26 +19,24 @@ import SnapKit
 
 final class LoginViewController: UIViewController, UITextFieldDelegate{
     //UILabel
-    private let beforeButton = UIImageView(image: .beforeBtn)
     private let loginLabel = UILabel()
     private let idTextField = UITextField()
     private let passwordTextField = UITextField()
     private lazy var loginButton = UIButton()
-    
+    private let hiddenIcon = UIImageView(image: .passwordHidden)
+    private let deleteIcon = UIImageView(image: .xCircle)
+    private let findId = UILabel()
+    private let findPassword = UILabel()
+    private let askAccount = UILabel()
+    private let createNickname = UILabel()
     
     //auto layout
     private func setLayout() {
-        [beforeButton, loginLabel, idTextField, passwordTextField, loginButton].forEach { [weak self] view in
+        [loginLabel, idTextField, passwordTextField, loginButton, hiddenIcon, deleteIcon, findId, findPassword, askAccount, createNickname].forEach { [weak self] view in
             guard let self = self else { return }
             self.view.addSubview(view)
         }
 
-        beforeButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(65)
-            $0.leading.equalToSuperview().inset(19)
-            $0.width.equalTo(8)
-            $0.height.equalTo(15)
-        }
       
         loginLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(112)
@@ -61,16 +59,52 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
             $0.height.equalTo(52)
         }
         
+        hiddenIcon.snp.makeConstraints {
+            $0.trailing.equalTo(passwordTextField.snp.trailing).inset(20)
+            $0.top.equalTo(passwordTextField.snp.top).inset(15)
+            $0.bottom.equalTo(passwordTextField.snp.bottom).inset(15)
+            $0.width.equalTo(20)
+            $0.height.equalTo(20)
+        }
+        
+        deleteIcon.snp.makeConstraints {
+            $0.trailing.equalTo(hiddenIcon.snp.leading).offset(-14)
+            $0.top.equalTo(passwordTextField.snp.top).inset(15)
+            $0.bottom.equalTo(passwordTextField.snp.bottom).inset(15)
+            $0.width.equalTo(20)
+            $0.height.equalTo(20)
+        }
+        
         loginButton.snp.makeConstraints {
             $0.top.equalTo(passwordTextField.snp.bottom).offset(21)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(52)
         }
+        
+        findId.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(92)
+            $0.top.equalTo(loginButton.snp.bottom).offset(31)
+        }
+        
+        findPassword.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(79)
+            $0.top.equalTo(loginButton.snp.bottom).offset(31)
+        }
+        
+        askAccount.snp.makeConstraints {
+            $0.top.equalTo(findId.snp.bottom).offset(28)
+            $0.leading.equalToSuperview().offset(58)
+        }
+        
+        createNickname.snp.makeConstraints {
+            $0.top.equalTo(findId.snp.bottom).offset(28)
+            $0.trailing.equalToSuperview().inset(58)
+        }
     }
+    
+    
     func setStyle(){
-        
-        
         //타이틀 텍스트
         loginLabel.do {
             $0.text = "TVING ID 로그인"
@@ -116,7 +150,6 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
             ]
             let attributedPlaceholder = NSAttributedString(string: "비밀번호", attributes: attributes)
             $0.attributedPlaceholder = attributedPlaceholder
-
         }
         
         //로그인
@@ -129,6 +162,36 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
             $0.layer.borderWidth = 1 // 테두리 두께
             $0.layer.borderColor = UIColor.gray4.cgColor // 테두리 색상
         }
+        
+        findId.do {
+            $0.text = "아이디 찾기"
+            $0.textColor = UIColor(resource: .gray2)
+            $0.textAlignment = .center
+            $0.font = UIFont(name: "Pretendard-Semibold", size: 14)
+        }
+        
+        findPassword.do {
+            $0.text = "비밀번호 찾기"
+            $0.textColor = UIColor(resource: .gray2)
+            $0.textAlignment = .center
+            $0.font = UIFont(name: "Pretendard-Semibold", size: 14)
+        }
+        
+        askAccount.do {
+            $0.text = "아직 계정이 없으신가요?"
+            $0.textColor = UIColor(resource: .gray3)
+            $0.textAlignment = .center
+            $0.font = UIFont(name: "Pretendard-Semibold", size: 14)
+        }
+        
+        createNickname.do {
+            $0.text = "닉네임 만들러가기"
+            $0.textColor = UIColor(resource: .gray2)
+            $0.textAlignment = .center
+            $0.font = UIFont(name: "Pretendard-Semibold", size: 14)
+        }
+        
+        
         
    
         
@@ -151,7 +214,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         // 입력된 아이디와 비밀번호가 유효한지 확인
         let isIdValid = isValidId(idTextField.text ?? "")
         let isPasswordValid = isValidPassword(passwordTextField.text ?? "")
-
+     
         // 아이디와 비밀번호가 유효한 경우 로그인 버튼 활성화
         loginButton.isEnabled = isIdValid && isPasswordValid
         
