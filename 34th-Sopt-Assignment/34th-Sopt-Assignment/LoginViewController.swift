@@ -29,10 +29,11 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     private let findPassword = UILabel()
     private let askAccount = UILabel()
     private let createNickname = UILabel()
+    private let centerLine = UIView()
     
     //auto layout
     private func setLayout() {
-        [loginLabel, idTextField, passwordTextField, loginButton, hiddenIcon, deleteIcon, findId, findPassword, askAccount, createNickname].forEach { [weak self] view in
+        [loginLabel, idTextField, passwordTextField, loginButton, hiddenIcon, deleteIcon, findId, findPassword, askAccount, createNickname, centerLine].forEach { [weak self] view in
             guard let self = self else { return }
             self.view.addSubview(view)
         }
@@ -100,6 +101,13 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         createNickname.snp.makeConstraints {
             $0.top.equalTo(findId.snp.bottom).offset(28)
             $0.trailing.equalToSuperview().inset(58)
+        }
+        centerLine.backgroundColor = .gray4
+        centerLine.snp.makeConstraints {
+            $0.top.equalTo(loginButton.snp.bottom).offset(36)
+            $0.center.equalToSuperview()
+            $0.width.equalTo(1)
+            $0.height.equalTo(12)
         }
     }
     
@@ -189,6 +197,13 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
             $0.textColor = UIColor(resource: .gray2)
             $0.textAlignment = .center
             $0.font = UIFont(name: "Pretendard-Semibold", size: 14)
+            
+            // underline을 추가하는 NSAttributedString 생성
+            let attributedString = NSAttributedString(string: "닉네임 만들러가기", attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue])
+            $0.attributedText = attributedString
+                
+            // UILabel의 사용자 상호작용 활성화
+            $0.isUserInteractionEnabled = true
         }
         
         
