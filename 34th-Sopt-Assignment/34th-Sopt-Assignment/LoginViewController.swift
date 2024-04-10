@@ -150,6 +150,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
             $0.leftView = paddingView
             $0.leftViewMode = .always
             $0.textColor = UIColor(resource: .gray2)
+            $0.isSecureTextEntry = true
             
             // placeholder의 색상을 변경
             let attributes: [NSAttributedString.Key: Any] = [
@@ -261,4 +262,24 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     }
 
    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        if textField == idTextField {
+            applyBorder(to: idTextField)
+            removeBorder(from: passwordTextField)
+        } else if textField == passwordTextField {
+            applyBorder(to: passwordTextField)
+            removeBorder(from: idTextField)
+        }
+        }
+        
+    private func applyBorder(to textField: UITextField) {
+        // 선택된 텍스트 필드에 테두리 효과 적용
+        textField.layer.borderWidth = 1.0
+        textField.layer.borderColor = UIColor.gray2.cgColor
+    }
+    private func removeBorder(from textField: UITextField) {
+        textField.layer.borderWidth = 0.0
+    }
 }
+
