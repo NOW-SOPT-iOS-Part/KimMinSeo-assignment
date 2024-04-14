@@ -5,12 +5,6 @@
 //  Created by 김민서 on 2024/04/06.
 //
 
-//
-//  LoginViewController.swift
-//  34th-Sopt-Seminar
-//
-//  Created by 김민서 on 2024/03/31.
-//
 
 import Foundation
 import UIKit
@@ -23,22 +17,51 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     private let idTextField = UITextField()
     private let passwordTextField = UITextField()
     private lazy var loginButton = UIButton()
-    private let hiddenIcon = UIImageView(image: .passwordHidden)
-    private let deleteIcon = UIImageView(image: .xCircle)
+    private let hiddenIcon = UIButton()
+    private let deleteIcon = UIButton()
     private let findId = UILabel()
     private let findPassword = UILabel()
     private let askAccount = UILabel()
     private let createNickname = UILabel()
     private let centerLine = UIView()
     
+    // MARK: Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setStyle()
+        setLayout()
+        setDelegate()
+    }
+    
+    private func setDelegate() {
+        // 텍스트 필드의 delegate 설정
+        idTextField.delegate = self
+        passwordTextField.delegate = self
+    }
+
     //auto layout
     private func setLayout() {
-        [loginLabel, idTextField, passwordTextField, loginButton, hiddenIcon, deleteIcon, findId, findPassword, askAccount, createNickname, centerLine].forEach { [weak self] view in
+        self.view.backgroundColor = .black
+        
+        [
+            loginLabel,
+            idTextField,
+            passwordTextField,
+            loginButton,
+            hiddenIcon,
+            findId,
+            deleteIcon,
+            findPassword,
+            askAccount,
+            createNickname,
+            centerLine
+        ].forEach { [weak self] view in
             guard let self = self else { return }
             self.view.addSubview(view)
         }
-
-      
+        
+        
         loginLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(112)
             $0.leading.equalToSuperview().inset(107)
@@ -112,7 +135,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     }
     
     
-    func setStyle(){
+    private func setStyle(){
         //타이틀 텍스트
         loginLabel.do {
             $0.text = "TVING ID 로그인"
@@ -139,7 +162,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
             ]
             let attributedPlaceholder = NSAttributedString(string: "아이디", attributes: attributes)
             $0.attributedPlaceholder = attributedPlaceholder
-
+            
         }
         
         passwordTextField.do {
@@ -151,7 +174,10 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
             $0.leftViewMode = .always
             $0.textColor = UIColor(resource: .gray2)
             $0.isSecureTextEntry = true
-            
+            //눈 아이콘 추가
+            $0.rightView = hiddenIcon
+            //클리어 버튼 추가
+            $0.rightView = deleteIcon
             // placeholder의 색상을 변경
             let attributes: [NSAttributedString.Key: Any] = [
                 .foregroundColor: UIColor.gray2, // 변경하고자 하는 색상
@@ -170,6 +196,22 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
             $0.layer.cornerRadius = 3
             $0.layer.borderWidth = 1 // 테두리 두께
             $0.layer.borderColor = UIColor.gray4.cgColor // 테두리 색상
+            $0.addTarget(self, action: #selector(loginButtonDidTap), for: .touchUpInside)
+        }
+        
+        //처음에는 안보이게
+        hiddenIcon.isHidden = true
+        deleteIcon.isHidden = true
+        
+        hiddenIcon.do {
+            $0.setImage(UIImage(resource: .passwordHidden), for: .normal)
+            $0.addTarget(self, action: #selector(hiddenButtonTapped), for: .touchUpInside)
+        }
+
+        deleteIcon.do {
+            $0.setImage(.xCircle, for: .normal)
+            $0.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+
         }
         
         findId.do {
@@ -202,27 +244,78 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
             // underline을 추가하는 NSAttributedString 생성
             let attributedString = NSAttributedString(string: "닉네임 만들러가기", attributes: [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue])
             $0.attributedText = attributedString
-                
+            
             // UILabel의 사용자 상호작용 활성화
             $0.isUserInteractionEnabled = true
         }
         
         
         
-   
+        
+        
+    }
+    
+    @objc
+    private func loginButtonDidTap() {
+        // 아이디와 비밀번호를 가져옴
+        let id = idTextField.text ?? ""
+        let password = passwordTextField.text ?? ""
+        
+        // 아이디와 비밀번호가 모두 입력되었는지 확인
+        guard !id.isEmpty, !password.isEmpty else {
+            // 아이디 또는 비밀번호 중 하나라도 비어 있으면 로그인을 수행하지 않고 종료
+            return
+        }
+        
+        // 아이디와 비밀번호가 모두 입력된 경우에만 로그인 화면으로 이동
+        pushToWelcomeVC()
+    }
+
+    
+    @objc
+    func deleteButtonTapped() {
+        self.passwordTextField.text = ""
+    }
+    
+    @objc
+    func hiddenButtonTapped() {
+        // 현재 텍스트 필드의 보안 상태를 토글
+        self.passwordTextField.isSecureTextEntry = !self.passwordTextField.isSecureTextEntry
+        // 보안 상태에 따라 이미지 변경
+        let image = self.passwordTextField.isSecureTextEntry ? UIImage(resource: .passwordHidden) : UIImage(resource: .passwordShown)
+        self.hiddenIcon.setImage(image, for: .normal)
+        
         
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setStyle()
-        setLayout()
-        self.view.backgroundColor = .black
+    //화면 전환
+    private func pushToWelcomeVC() {
+        let welcomeViewController = WelcomeViewController()
+        self.navigationController?.pushViewController(welcomeViewController, animated: true)
+    }
     
-        // 텍스트 필드의 delegate 설정
-        idTextField.delegate = self
-        passwordTextField.delegate = self
-        
+
+    //입력하려고 클릭했을 떄
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+    
+        if textField == idTextField {
+            applyBorder(to: idTextField)
+            removeBorder(from: passwordTextField)
+            hiddenIcon.isHidden = true
+            deleteIcon.isHidden = true
+        } else if textField == passwordTextField {
+            applyBorder(to: passwordTextField)
+            removeBorder(from: idTextField)
+            hiddenIcon.isHidden = false
+            deleteIcon.isHidden = false
+        }
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == passwordTextField {
+            hiddenIcon.isHidden = true
+            deleteIcon.isHidden = true
+        }
     }
 
     // 텍스트 필드 내용이 변경될 때 호출되는 메서드
@@ -230,49 +323,36 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         // 입력된 아이디와 비밀번호가 유효한지 확인
         let isIdValid = isValidId(idTextField.text ?? "")
         let isPasswordValid = isValidPassword(passwordTextField.text ?? "")
-     
-        // 아이디와 비밀번호가 유효한 경우 로그인 버튼 활성화
-        loginButton.isEnabled = isIdValid && isPasswordValid
         
-        if(loginButton.isEnabled){
+        // 아이디와 비밀번호가 모두 유효한 경우 로그인 버튼 활성화
+        let isLoginEnabled = isIdValid && isPasswordValid
+        loginButton.isEnabled = isLoginEnabled
+        
+        // 로그인 버튼의 스타일 변경
+        if isLoginEnabled {
             loginButton.backgroundColor = UIColor(resource: .main)
-            let buttonTextColor: UIColor = .white
-            loginButton.setTitleColor(buttonTextColor, for: .normal)
-        }
-        else{
+            loginButton.setTitleColor(.white, for: .normal)
+            loginButton.layer.borderColor = UIColor.gray4.cgColor
+        } else {
             loginButton.backgroundColor = .black
-            let buttonTextColor: UIColor = .gray2
-            loginButton.setTitleColor(buttonTextColor, for: .normal)
-            loginButton.layer.borderWidth = 1
-            loginButton.layer.borderColor = UIColor.gray4.cgColor // 테두리 색상
+            loginButton.setTitleColor(UIColor(resource: .gray2), for: .normal)
+            loginButton.layer.borderColor = UIColor.gray4.cgColor
         }
-
     }
+
     
     // 아이디 유효성 검사
     func isValidId(_ id: String) -> Bool {
-        // 아이디 유효성 검사 로직 추가
         return !id.isEmpty
     }
-
+    
     // 비밀번호 유효성 검사
     func isValidPassword(_ password: String) -> Bool {
-        // 비밀번호 유효성 검사 로직 추가
         return !password.isEmpty
     }
 
-   
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-        if textField == idTextField {
-            applyBorder(to: idTextField)
-            removeBorder(from: passwordTextField)
-        } else if textField == passwordTextField {
-            applyBorder(to: passwordTextField)
-            removeBorder(from: idTextField)
-        }
-        }
-        
+    
+
     private func applyBorder(to textField: UITextField) {
         // 선택된 텍스트 필드에 테두리 효과 적용
         textField.layer.borderWidth = 1.0
@@ -281,5 +361,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     private func removeBorder(from textField: UITextField) {
         textField.layer.borderWidth = 0.0
     }
+    
+    
 }
 
