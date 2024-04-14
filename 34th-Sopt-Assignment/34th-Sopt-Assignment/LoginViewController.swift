@@ -11,7 +11,9 @@ import UIKit
 import Then//Then 라이브러리
 import SnapKit
 
-final class LoginViewController: UIViewController, UITextFieldDelegate{
+final class LoginViewController: UIViewController, UITextFieldDelegate {
+    
+    
     //UILabel
     private let loginLabel = UILabel()
     private let idTextField = UITextField()
@@ -40,6 +42,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         passwordTextField.delegate = self
     }
 
+   
     //auto layout
     private func setLayout() {
         self.view.backgroundColor = .black
@@ -254,7 +257,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         
         
     }
-    
+
     @objc
     private func loginButtonDidTap() {
         // 아이디와 비밀번호를 가져옴
@@ -266,7 +269,6 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
             // 아이디 또는 비밀번호 중 하나라도 비어 있으면 로그인을 수행하지 않고 종료
             return
         }
-        
         // 아이디와 비밀번호가 모두 입력된 경우에만 로그인 화면으로 이동
         pushToWelcomeVC()
     }
@@ -284,13 +286,13 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
         // 보안 상태에 따라 이미지 변경
         let image = self.passwordTextField.isSecureTextEntry ? UIImage(resource: .passwordHidden) : UIImage(resource: .passwordShown)
         self.hiddenIcon.setImage(image, for: .normal)
-        
-        
     }
 
     //화면 전환
     private func pushToWelcomeVC() {
         let welcomeViewController = WelcomeViewController()
+        welcomeViewController.delegate = self
+        welcomeViewController.setLabelText(id: idTextField.text)
         self.navigationController?.pushViewController(welcomeViewController, animated: true)
     }
     
@@ -365,3 +367,8 @@ final class LoginViewController: UIViewController, UITextFieldDelegate{
     
 }
 
+extension LoginViewController: DataBindProtocol {
+    func dataBind(id: String?) {
+        idTextField.text = id
+    }
+}
