@@ -353,14 +353,20 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     
-    // 아이디 유효성 검사
+    // 아이디 유효성 검사 (이메일 정규식 추가)
     func isValidId(_ id: String) -> Bool {
-        return !id.isEmpty
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return !id.isEmpty && emailPredicate.evaluate(with: id)
     }
+
     
-    // 비밀번호 유효성 검사
+    // 비밀번호 유효성 검사 (비밀번호 정규식 추가)
     func isValidPassword(_ password: String) -> Bool {
-        return !password.isEmpty
+        let pwRegEx = "[A-Za-z0-9!_@$%^&+=]{8,20}"
+        // 8자 ~ 20자
+        let pwPredicate = NSPredicate(format:"SELF MATCHES %@", pwRegEx)
+        return !password.isEmpty && pwPredicate.evaluate(with: password)
     }
 
     
