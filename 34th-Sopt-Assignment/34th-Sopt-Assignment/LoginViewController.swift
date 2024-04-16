@@ -250,10 +250,12 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
             
             // UILabel의 사용자 상호작용 활성화
             $0.isUserInteractionEnabled = true
+            
+            // 탭 제스처 생성
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(nicknameClicked))
+            $0.addGestureRecognizer(tapGesture)
         }
-        
-        
-        
+
         
         
     }
@@ -286,6 +288,14 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
         // 보안 상태에 따라 이미지 변경
         let image = self.passwordTextField.isSecureTextEntry ? UIImage(resource: .passwordHidden) : UIImage(resource: .passwordShown)
         self.hiddenIcon.setImage(image, for: .normal)
+    }
+    
+    @objc func nicknameClicked() {
+        let bottomSheetVC = BottomSheetViewController()
+          // 1
+        bottomSheetVC.modalPresentationStyle = .overFullScreen
+          // 2
+        self.present(bottomSheetVC, animated: false, completion: nil)
     }
 
     //화면 전환
