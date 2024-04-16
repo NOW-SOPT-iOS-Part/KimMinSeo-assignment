@@ -24,6 +24,7 @@ final class WelcomeViewController: UIViewController {
     private let tvingImage = UIImageView(image: .tving)
     private lazy var backButton = UIButton()
     private let welcomeText = UILabel()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,6 +70,7 @@ final class WelcomeViewController: UIViewController {
             $0.width.equalTo(375)
             $0.height.equalTo(211)
         }
+        
         welcomeText.snp.makeConstraints {
             $0.top.equalTo(tvingImage.snp.bottom).offset(67)
             $0.leading.equalToSuperview()
