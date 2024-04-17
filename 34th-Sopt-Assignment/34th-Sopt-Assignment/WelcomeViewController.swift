@@ -24,6 +24,7 @@ final class WelcomeViewController: UIViewController {
     private let tvingImage = UIImageView(image: .tving)
     private lazy var backButton = UIButton()
     private let welcomeText = UILabel()
+    private lazy var mainButton = UIButton()
 
     
     override func viewDidLoad() {
@@ -47,11 +48,19 @@ final class WelcomeViewController: UIViewController {
             $0.font = UIFont(name: "Pretendard-Bold", size: 23)
             
         }
+        
+        mainButton.do {
+            $0.backgroundColor = UIColor(resource: .main)
+            $0.setTitle("메인으로", for: .normal)
+            $0.setTitleColor(.white, for: .normal)
+            $0.titleLabel?.font = UIFont(name: "Pretendard-Semibold", size: 14)
+            $0.layer.cornerRadius = 3
+        }
     }
     
     private func setLayout() {
         self.view.backgroundColor = .black
-        [tvingImage, backButton, welcomeText].forEach { [weak self] view in
+        [tvingImage, backButton, welcomeText, mainButton].forEach { [weak self] view in
             guard let self = self else { return }
             self.view.addSubview(view)
         }
@@ -75,6 +84,13 @@ final class WelcomeViewController: UIViewController {
             $0.top.equalTo(tvingImage.snp.bottom).offset(67)
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
+        }
+        
+        mainButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().inset(66)
+            $0.leading.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(52)
         }
         
     }
