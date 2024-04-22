@@ -11,9 +11,10 @@ import UIKit
 import Then//Then 라이브러리
 import SnapKit
 
+
 final class LoginViewController: UIViewController, UITextFieldDelegate {
     
-    
+    var nickname: String? = "아이디 찾기"
     //UILabel
     private let loginLabel = UILabel()
     private let idTextField = UITextField()
@@ -27,6 +28,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
     private let createNickname = UILabel()
     private let centerLine = UIView()
     
+    weak var delegate: DataBindProtocol?
     // MARK: Lifecycle
     
     override func viewDidLoad() {
@@ -34,6 +36,8 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
         setStyle()
         setLayout()
         setDelegate()
+        
+        bindNickname()
     }
     
     private func setDelegate() {
@@ -259,6 +263,16 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
         
         
     }
+    //옵셔널 바인딩
+    private func bindNickname() {
+        guard let nicknameText = nickname else { return }
+        self.findId.text = nicknameText
+    }
+    
+    func setNicknameText(nickname: String?) {
+        self.nickname = nickname
+    }
+    
 
     @objc
     private func loginButtonDidTap() {
@@ -292,12 +306,11 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @objc func nicknameClicked() {
         let bottomSheetVC = BottomSheetViewController()
-          // 1
+       
         bottomSheetVC.modalPresentationStyle = .overFullScreen
-          // 2
         self.present(bottomSheetVC, animated: false, completion: nil)
     }
-
+    
     //화면 전환
     private func pushToWelcomeVC() {
         let welcomeViewController = WelcomeViewController()
@@ -315,6 +328,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
             removeBorder(from: passwordTextField)
             hiddenIcon.isHidden = true
             deleteIcon.isHidden = true
+            print(nickname)
         } else if textField == passwordTextField {
             applyBorder(to: passwordTextField)
             removeBorder(from: idTextField)
@@ -368,8 +382,6 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
         let pwPredicate = NSPredicate(format:"SELF MATCHES %@", pwRegEx)
         return !password.isEmpty && pwPredicate.evaluate(with: password)
     }
-
-    
 
     private func applyBorder(to textField: UITextField) {
         // 선택된 텍스트 필드에 테두리 효과 적용

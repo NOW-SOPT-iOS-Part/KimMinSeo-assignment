@@ -9,7 +9,9 @@ import UIKit
 import Then
 import SnapKit
 
-class BottomSheetViewController: UIViewController, UITextFieldDelegate {
+
+class BottomSheetViewController: UIViewController {
+  
     
     private let bottomSheetView = UIView()
     private let dimmedView = UIView()
@@ -19,7 +21,7 @@ class BottomSheetViewController: UIViewController, UITextFieldDelegate {
     private var bottomSheetViewTopConstraint: NSLayoutConstraint!
     private lazy var saveButton = UIButton()
     
-    weak var delegate: DataBindProtocol?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setStyle()
@@ -82,7 +84,6 @@ class BottomSheetViewController: UIViewController, UITextFieldDelegate {
             $0.height.equalTo(52)
         }
         
-      
         
     }
     
@@ -140,18 +141,17 @@ class BottomSheetViewController: UIViewController, UITextFieldDelegate {
             $0.titleLabel?.font = UIFont(name: "Pretendard-Semibold", size: 14)
             $0.layer.cornerRadius = 3
             $0.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+            
 
         }
     }
     
+  
     
     private func hideBottomSheetAndGoBack() {
-        let safeAreaHeight = view.safeAreaLayoutGuide.layoutFrame.height
-        let bottomPadding = view.safeAreaInsets.bottom
-        let welcomeViewController = WelcomeViewController()
+        let loginViewController = LoginViewController()
+        loginViewController.setNicknameText(nickname: nicknameTextfield.text)
         
-        welcomeViewController.delegate = self
-        welcomeViewController.setLabelText(id: nicknameTextfield.text)
         UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseIn, animations: {
             self.dimmedView.alpha = 0.0
             self.view.layoutIfNeeded()
@@ -164,23 +164,19 @@ class BottomSheetViewController: UIViewController, UITextFieldDelegate {
     
     @objc private func dimmedViewTapped(_ tapRecognizer: UITapGestureRecognizer) {
         hideBottomSheetAndGoBack()
+        
     }
-}
-
-extension BottomSheetViewController {
+    
     @objc private func saveButtonTapped() {
         let nickname = nicknameTextfield.text ?? ""
-        
         // 아이디와 비밀번호가 모두 입력되었는지 확인
+        
         guard !nickname.isEmpty else {
             return
         }
         hideBottomSheetAndGoBack()
+        
+        
     }
-}
 
-extension BottomSheetViewController: DataBindProtocol {
-    func dataBind(id: String?) {
-        nicknameTextfield.text = id
-    }
 }
