@@ -328,7 +328,6 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
             removeBorder(from: passwordTextField)
             hiddenIcon.isHidden = true
             deleteIcon.isHidden = true
-            print(nickname)
         } else if textField == passwordTextField {
             applyBorder(to: passwordTextField)
             removeBorder(from: idTextField)
