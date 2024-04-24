@@ -28,6 +28,8 @@
 		0D7D72AC2BCE715200F420C7 /* Pretendard-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0D7D72A32BCE715200F420C7 /* Pretendard-Thin.otf */; };
 		0DDAD0AA2BCD4EAE00047146 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDAD0A92BCD4EAE00047146 /* BottomSheetViewController.swift */; };
 		0DEEBBE72BD8C7B000B18B5B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEEBBE62BD8C7B000B18B5B /* MainViewController.swift */; };
+		0DEEBBEA2BD9020900B18B5B /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEEBBE92BD9020900B18B5B /* ContentTableViewCell.swift */; };
+		0DEEBBEC2BD9093000B18B5B /* ContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEEBBEB2BD9093000B18B5B /* ContentModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +53,8 @@
 		0D7D72A32BCE715200F420C7 /* Pretendard-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pretendard-Thin.otf"; path = "../../../../../../Downloads/Pretendard-1.3.9/public/static/Pretendard-Thin.otf"; sourceTree = "<group>"; };
 		0DDAD0A92BCD4EAE00047146 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		0DEEBBE62BD8C7B000B18B5B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		0DEEBBE92BD9020900B18B5B /* ContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
+		0DEEBBEB2BD9093000B18B5B /* ContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +125,8 @@
 			isa = PBXGroup;
 			children = (
 				0DEEBBE62BD8C7B000B18B5B /* MainViewController.swift */,
+				0DEEBBE92BD9020900B18B5B /* ContentTableViewCell.swift */,
+				0DEEBBEB2BD9093000B18B5B /* ContentModel.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -215,9 +221,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0DEEBBE72BD8C7B000B18B5B /* MainViewController.swift in Sources */,
+				0DEEBBEC2BD9093000B18B5B /* ContentModel.swift in Sources */,
 				0D4159702BC0EFBF0020C0C5 /* LoginViewController.swift in Sources */,
 				0DDAD0AA2BCD4EAE00047146 /* BottomSheetViewController.swift in Sources */,
 				0D4159722BC0EFE00020C0C5 /* WelcomeViewController.swift in Sources */,
+				0DEEBBEA2BD9020900B18B5B /* ContentTableViewCell.swift in Sources */,
 				0D41595A2BC0EC850020C0C5 /* AppDelegate.swift in Sources */,
 				0D41595C2BC0EC850020C0C5 /* SceneDelegate.swift in Sources */,
 			);
