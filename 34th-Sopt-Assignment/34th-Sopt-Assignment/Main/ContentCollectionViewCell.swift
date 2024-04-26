@@ -1,4 +1,11 @@
 //
+//  ContentCollectionViewCell.swift
+//  34th-Sopt-Assignment
+//
+//  Created by 김민서 on 4/26/24.
+//
+
+//
 //  ContentTableViewCell.swift
 //  34th-Sopt-Assignment
 //
@@ -9,18 +16,21 @@ import UIKit
 import Then
 import SnapKit
 
-class ContentTableViewCell: UITableViewCell {
-    //셀을 구분하기 위한 식별자
-    static let identifier = "ContentTableViewCell"
-    
-    
-    private let itemImageView = UIImageView()
-    
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-   
-        self.backgroundColor = .white
+
+class ContentCollectionViewCell: UICollectionViewCell {
+    //셀을 구분하기 위한 식별자
+    static let identifier = "ItemCollectionViewCell"
+        
+    
+    //이미지
+    private let itemImageView = UIImageView()
+    var itemRow: Int?
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        self.backgroundColor = .black
         setLayout()
         setStyle()
     }
@@ -35,6 +45,7 @@ class ContentTableViewCell: UITableViewCell {
     private func setStyle() {
         itemImageView.do {
             $0.image = UIImage(resource: .mainPoster)
+            $0.layer.cornerRadius = 100
         }
     }
     
@@ -45,16 +56,17 @@ class ContentTableViewCell: UITableViewCell {
         
         itemImageView.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview().inset(9)
-            $0.bottom.equalToSuperview().inset(59)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
      
     }
     
 }
 
-extension ContentTableViewCell {
-    func dataBind(_ contentData: ContentModel) {
+extension ContentCollectionViewCell {
+    func dataBind(_ contentData: ContentModel, itemRow: Int) {
         itemImageView.image = contentData.itemImg
+        self.itemRow = itemRow
     }
 }

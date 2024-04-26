@@ -15,6 +15,7 @@ import SnapKit
 final class LoginViewController: UIViewController, UITextFieldDelegate {
     
     var nickname: String? = "아이디 찾기"
+
     //UILabel
     private let loginLabel = UILabel()
     private let idTextField = UITextField()
@@ -29,7 +30,6 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
     private let centerLine = UIView()
     
     weak var delegate: DataBindProtocol?
-    // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()

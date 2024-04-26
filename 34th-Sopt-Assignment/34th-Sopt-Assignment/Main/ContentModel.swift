@@ -15,11 +15,11 @@ struct ContentModel {
 extension ContentModel {
     static func dummy() -> [ContentModel] {
         return [
-            ContentModel(itemImg: .mainPoster),
-            ContentModel(itemImg: .mainPoster),
-            ContentModel(itemImg: .mainPoster),
-            ContentModel(itemImg: .mainPoster),
-            ContentModel(itemImg: .mainPoster)
+            ContentModel(itemImg: .subPoster1),
+            ContentModel(itemImg: .subPoster2),
+            ContentModel(itemImg: .subPoster3),
+            ContentModel(itemImg: .subPoster4),
+            ContentModel(itemImg: .subPoster5)
         ]
     }
 }

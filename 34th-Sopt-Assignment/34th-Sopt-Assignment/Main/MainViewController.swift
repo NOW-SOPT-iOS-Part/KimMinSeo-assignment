@@ -10,13 +10,13 @@ import UIKit
 import Then
 import SnapKit
 
-final class MainViewController: UIViewController {
-
+final class MainViewController: UIViewController, UICollectionViewDelegate {
+    
+    
+    //화면 전체 스크롤
     private let scrollView = UIScrollView()
     private var contentView = UIView()
-    //테이블뷰
-    private let contentTableView = UITableView(frame: .zero, style: .plain)
-    private let contentList = ContentModel.dummy()
+    
     
     private let mainPoster = UIImageView()
     private let gradientView = UIImageView()
@@ -31,22 +31,52 @@ final class MainViewController: UIViewController {
     
     
     
+    //콜렉션 뷰
+    private let contentCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear // 콜렉션 뷰 배경색을 투명하게 설정
+        return collectionView
+    }()
+
+    private var itemData = ContentModel.dummy()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setDelegate()
-//        register()
+
         setStyle()
         setLayout()
+        register()
+        setDelegate()
     }
     
     private func setLayout() {
         self.view.addSubview(scrollView)
+        
         scrollView.addSubview(contentView)
         self.view.backgroundColor = .black
-  
-        [mainPoster, gradientView,gradientView2, tvingLogo, airplay, profile, explainLabel,contentLabel, showAll, arrow].forEach {
+        
+        // UICollectionViewFlowLayout의 scrollDirection을 horizontal로 설정
+        if let layout = contentCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = .horizontal
+        }
+        
+        // contentCollectionView의 contentSize를 설정하여 수직 스크롤이 필요 없음을 나타냄
+        contentCollectionView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 198)
+    
+        
+      
+        [mainPoster, gradientView,gradientView2, tvingLogo, airplay, profile, explainLabel,contentLabel, showAll, arrow, contentCollectionView].forEach {
             contentView.addSubview($0)
         }
+        
+        contentCollectionView.snp.makeConstraints {
+            $0.top.equalTo(contentLabel.snp.bottom).offset(5)
+            $0.leading.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview()
+            $0.height.equalTo(150)
+        }
+        
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -108,14 +138,11 @@ final class MainViewController: UIViewController {
             $0.top.equalTo(mainPoster.snp.bottom).offset(44)
             $0.trailing.equalTo(arrow.snp.leading)
         }
-//        self.view.addSubview(contentTableView)
-//        //테이블 뷰
-//        contentTableView.snp.makeConstraints {
-//            $0.top.equalTo(contentLabel.snp.bottom).offset(14)
-//            $0.leading.trailing.bottom.equalToSuperview().inset(16)
-//        }
-      
+        
+        
     }
+
+
     
     private func setStyle() {
         self.navigationController?.navigationBar.isHidden = true
@@ -162,42 +189,47 @@ final class MainViewController: UIViewController {
         arrow.do {
             $0.setImage(UIImage(resource: .arrow), for: .normal)
         }
-            
+        
+ 
     }
     
-//    //테이블 뷰에 셀 등록 1.어떤 셀 등록할지 2.식별자
-//    private func register() {
-//        contentTableView.register(
-//            ContentTableViewCell.self,
-//            forCellReuseIdentifier: ContentTableViewCell.identifier
-//        )
-//    }
-//    private func setDelegate() {
-//        contentTableView.delegate = self
-//        contentTableView.dataSource = self
-//    }
-
+    private func register() {
+        contentCollectionView.register(ContentCollectionViewCell.self, forCellWithReuseIdentifier: ContentCollectionViewCell.identifier)
+    }
+    
+    private func setDelegate() {
+        contentCollectionView.delegate = self
+        contentCollectionView.dataSource = self
+    }
+    
 }
 
-//extension MainViewController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return tableView.frame.width // 테이블 뷰의 너비를 셀의 높이로 사용하여 가로 스크롤을 위한 높이 조절
-//    }
-//}
-
-//extension MainViewController: UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 5
-//    }
-//    
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        guard let cell = tableView.dequeueReusableCell(withIdentifier: ContentTableViewCell.identifier, for: indexPath) as? ContentTableViewCell else { return UITableViewCell() }
-//        cell.dataBind(contentList[indexPath.row])
-//        return cell
-//    }
-//}
 
 
-
-
+extension MainViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 100, height: 146)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0 // 아이템 간의 간격을 없앰
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 8 // 셀 간의 간격을 없앰
+    }
+    
+    
+}
+extension MainViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return itemData.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContentCollectionViewCell.identifier, for: indexPath) as? ContentCollectionViewCell else { return UICollectionViewCell() }
+        cell.dataBind(itemData[indexPath.item], itemRow: indexPath.item)
+        return cell
+    }
+}
 
