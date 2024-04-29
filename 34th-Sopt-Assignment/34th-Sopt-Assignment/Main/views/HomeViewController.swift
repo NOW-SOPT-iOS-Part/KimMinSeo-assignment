@@ -12,7 +12,6 @@ import SnapKit
 
 final class HomeViewController: UIViewController, UICollectionViewDelegate {
     
-    
     //화면 전체 스크롤
     private let scrollView = UIScrollView()
     private var contentView = UIView()
@@ -40,13 +39,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         return collectionView
     }()
     
-    private let recommendCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .clear // 콜렉션 뷰 배경색을 투명하게 설정
-        return collectionView
-    }()
+
 
     private var itemData = ContentModel.dummy()
     
@@ -61,19 +54,17 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     }
     
     private func setLayout() {
-        self.view.addSubview(scrollView)
-        
-        scrollView.addSubview(contentView)
+     
+       
         self.view.backgroundColor = .black
         
         self.view.addSubview(scrollView)
-
-        contentCollectionView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 163)
-        recommendCollectionView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 163)
-    
+        scrollView.addSubview(contentView)
+  
         
       
-        [mainPoster, gradientView,gradientView2, tvingLogo, airplay, profile, explainLabel,contentLabel, showAll, arrow, contentCollectionView, recommendCollectionView].forEach {
+        
+        [mainPoster, gradientView,gradientView2, tvingLogo,airplay, profile, explainLabel,contentLabel, showAll, arrow, contentCollectionView].forEach {
             contentView.addSubview($0)
         }
    
@@ -82,15 +73,10 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
             $0.top.equalTo(contentLabel.snp.bottom).offset(5)
             $0.leading.equalToSuperview().inset(15)
             $0.trailing.equalToSuperview()
-            $0.height.equalTo(150)
+            $0.height.equalTo(163)
         }
         
-        recommendCollectionView.snp.makeConstraints {
-            $0.top.equalTo(contentCollectionView.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().inset(15)
-            $0.trailing.equalToSuperview()
-            $0.height.equalTo(150)
-        }
+   
         
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -209,15 +195,11 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     
     private func register() {
         contentCollectionView.register(ContentCollectionViewCell.self, forCellWithReuseIdentifier: ContentCollectionViewCell.identifier)
-        recommendCollectionView.register(ContentCollectionViewCell.self,
-                                         forCellWithReuseIdentifier: ContentCollectionViewCell.identifier)
     }
     
     private func setDelegate() {
         contentCollectionView.delegate = self
         contentCollectionView.dataSource = self
-        recommendCollectionView.delegate = self
-        recommendCollectionView.dataSource = self
     }
     
 }
@@ -229,16 +211,17 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: 100, height: 146)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0 // 아이템 간의 간격을 없앰
-    }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 8 // 셀 간의 간격을 없앰
     }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: -5, left: 0, bottom: 10, right: 0)
+    }
     
+
     
 }
+
 extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -247,14 +230,9 @@ extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContentCollectionViewCell.identifier, for: indexPath) as? ContentCollectionViewCell else { return UICollectionViewCell() }
-        switch collectionView {
-        case contentCollectionView:
-            cell.dataBind(itemData[indexPath.item], itemRow: indexPath.item)
-        default:
-            cell.itemImageView.image = .mainPoster
-        }
-        
+        cell.dataBind(itemData[indexPath.item], itemRow: indexPath.item)
         return cell
     }
+
 }
 

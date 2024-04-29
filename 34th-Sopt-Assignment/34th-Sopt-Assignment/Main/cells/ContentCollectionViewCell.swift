@@ -45,14 +45,10 @@ class ContentCollectionViewCell: UICollectionViewCell {
     
     
     private func setStyle() {
-        itemImageView.do {
-            $0.image = UIImage(resource: .mainPoster)
-            $0.layer.cornerRadius = 100
-        }
         titleLabel.do {
             $0.text = "제목"
             $0.textColor = UIColor(resource: .gray2)
-            $0.textAlignment = .center
+            $0.textAlignment = .left
             $0.font = UIFont(name: "Pretendard-Medium", size: 13)
         }
     }
@@ -65,12 +61,14 @@ class ContentCollectionViewCell: UICollectionViewCell {
         itemImageView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.horizontalEdges.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.height.equalTo(146)
+
         }
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(itemImageView.snp.bottom).offset(2)
+            $0.top.equalTo(itemImageView.snp.bottom)
             $0.leading.equalTo(itemImageView.snp.leading)
-        }  
+            $0.trailing.equalTo(itemImageView.snp.trailing)
+        }
      
     }
     
