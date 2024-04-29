@@ -24,7 +24,9 @@ class ContentCollectionViewCell: UICollectionViewCell {
         
     
     //이미지
-    private let itemImageView = UIImageView()
+    let itemImageView = UIImageView()
+    let titleLabel = UILabel()
+    
     var itemRow: Int?
 
     override init(frame: CGRect) {
@@ -47,10 +49,16 @@ class ContentCollectionViewCell: UICollectionViewCell {
             $0.image = UIImage(resource: .mainPoster)
             $0.layer.cornerRadius = 100
         }
+        titleLabel.do {
+            $0.text = "제목"
+            $0.textColor = UIColor(resource: .gray2)
+            $0.textAlignment = .center
+            $0.font = UIFont(name: "Pretendard-Medium", size: 13)
+        }
     }
     
     private func setLayout() {
-        [itemImageView].forEach {
+        [itemImageView, titleLabel].forEach {
             contentView.addSubview($0)
         }
         
@@ -59,6 +67,10 @@ class ContentCollectionViewCell: UICollectionViewCell {
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
+        titleLabel.snp.makeConstraints {
+            $0.top.equalTo(itemImageView.snp.bottom).offset(2)
+            $0.leading.equalTo(itemImageView.snp.leading)
+        }  
      
     }
     
@@ -67,6 +79,7 @@ class ContentCollectionViewCell: UICollectionViewCell {
 extension ContentCollectionViewCell {
     func dataBind(_ contentData: ContentModel, itemRow: Int) {
         itemImageView.image = contentData.itemImg
+        titleLabel.text = contentData.title
         self.itemRow = itemRow
     }
 }

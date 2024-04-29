@@ -10,7 +10,7 @@ import UIKit
 import Then
 import SnapKit
 
-final class MainViewController: UIViewController, UICollectionViewDelegate {
+final class HomeViewController: UIViewController, UICollectionViewDelegate {
     
     
     //화면 전체 스크롤
@@ -29,11 +29,20 @@ final class MainViewController: UIViewController, UICollectionViewDelegate {
     private let showAll = UILabel()
     private let arrow = UIButton()
     
-    
+
     
     //콜렉션 뷰
     private let contentCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear // 콜렉션 뷰 배경색을 투명하게 설정
+        return collectionView
+    }()
+    
+    private let recommendCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear // 콜렉션 뷰 배경색을 투명하게 설정
         return collectionView
@@ -43,6 +52,7 @@ final class MainViewController: UIViewController, UICollectionViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
 
         setStyle()
         setLayout()
@@ -56,23 +66,28 @@ final class MainViewController: UIViewController, UICollectionViewDelegate {
         scrollView.addSubview(contentView)
         self.view.backgroundColor = .black
         
-        // UICollectionViewFlowLayout의 scrollDirection을 horizontal로 설정
-        if let layout = contentCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.scrollDirection = .horizontal
-        }
-        
-        // contentCollectionView의 contentSize를 설정하여 수직 스크롤이 필요 없음을 나타냄
-        contentCollectionView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 198)
+        self.view.addSubview(scrollView)
+
+        contentCollectionView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 163)
+        recommendCollectionView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: 163)
     
         
       
-        [mainPoster, gradientView,gradientView2, tvingLogo, airplay, profile, explainLabel,contentLabel, showAll, arrow, contentCollectionView].forEach {
+        [mainPoster, gradientView,gradientView2, tvingLogo, airplay, profile, explainLabel,contentLabel, showAll, arrow, contentCollectionView, recommendCollectionView].forEach {
             contentView.addSubview($0)
         }
+   
         
         contentCollectionView.snp.makeConstraints {
             $0.top.equalTo(contentLabel.snp.bottom).offset(5)
-            $0.leading.equalToSuperview().inset(16)
+            $0.leading.equalToSuperview().inset(15)
+            $0.trailing.equalToSuperview()
+            $0.height.equalTo(150)
+        }
+        
+        recommendCollectionView.snp.makeConstraints {
+            $0.top.equalTo(contentCollectionView.snp.bottom).offset(10)
+            $0.leading.equalToSuperview().inset(15)
             $0.trailing.equalToSuperview()
             $0.height.equalTo(150)
         }
@@ -103,8 +118,8 @@ final class MainViewController: UIViewController, UICollectionViewDelegate {
             $0.height.equalTo(150)
         }
         tvingLogo.snp.makeConstraints {
-            $0.top.equalTo(mainPoster.snp.top).inset(20)
-            $0.leading.equalToSuperview().inset(16)
+            $0.top.equalTo(mainPoster.snp.top).inset(15)
+            $0.leading.equalToSuperview().inset(15)
             $0.width.equalTo(84)
             $0.height.equalTo(21)
         }
@@ -116,21 +131,21 @@ final class MainViewController: UIViewController, UICollectionViewDelegate {
         }
         profile.snp.makeConstraints {
             $0.top.equalTo(mainPoster.snp.top).inset(15)
-            $0.trailing.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview().inset(15)
             $0.width.equalTo(23)
             $0.height.equalTo(23)
         }
         explainLabel.snp.makeConstraints {
-            $0.bottom.equalTo(mainPoster.snp.bottom).offset(-15)
-            $0.leading.equalTo(mainPoster.snp.leading).offset(10)
+            $0.bottom.equalTo(mainPoster.snp.bottom).offset(20)
+            $0.leading.equalTo(mainPoster.snp.leading).offset(15)
         }
         contentLabel.snp.makeConstraints {
             $0.top.equalTo(mainPoster.snp.bottom).offset(43)
-            $0.leading.equalToSuperview().inset(16)
+            $0.leading.equalToSuperview().inset(15)
         }
         arrow.snp.makeConstraints {
             $0.top.equalTo(mainPoster.snp.bottom).offset(47)
-            $0.trailing.equalToSuperview().inset(14)
+            $0.trailing.equalToSuperview().inset(12)
             $0.width.equalTo(10)
             $0.height.equalTo(10)
         }
@@ -143,7 +158,6 @@ final class MainViewController: UIViewController, UICollectionViewDelegate {
     }
 
 
-    
     private func setStyle() {
         self.navigationController?.navigationBar.isHidden = true
         
@@ -168,7 +182,7 @@ final class MainViewController: UIViewController, UICollectionViewDelegate {
             $0.clipsToBounds = true
         }
         explainLabel.do {
-            $0.text = "[민서의 추천 드라마] 한소희 존예 송강 존잘\n두번 보세요~"
+            $0.text = "[민서의 추천 드라마] 한소희 존예 송강 존잘\n두번 보세요~ 세번 보세요~~"
             $0.textColor = UIColor.white
             $0.textAlignment = .left
             $0.numberOfLines = 2
@@ -195,18 +209,22 @@ final class MainViewController: UIViewController, UICollectionViewDelegate {
     
     private func register() {
         contentCollectionView.register(ContentCollectionViewCell.self, forCellWithReuseIdentifier: ContentCollectionViewCell.identifier)
+        recommendCollectionView.register(ContentCollectionViewCell.self,
+                                         forCellWithReuseIdentifier: ContentCollectionViewCell.identifier)
     }
     
     private func setDelegate() {
         contentCollectionView.delegate = self
         contentCollectionView.dataSource = self
+        recommendCollectionView.delegate = self
+        recommendCollectionView.dataSource = self
     }
     
 }
 
 
 
-extension MainViewController: UICollectionViewDelegateFlowLayout {
+extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 100, height: 146)
     }
@@ -221,14 +239,21 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
     
     
 }
-extension MainViewController: UICollectionViewDataSource {
+extension HomeViewController: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return itemData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContentCollectionViewCell.identifier, for: indexPath) as? ContentCollectionViewCell else { return UICollectionViewCell() }
-        cell.dataBind(itemData[indexPath.item], itemRow: indexPath.item)
+        switch collectionView {
+        case contentCollectionView:
+            cell.dataBind(itemData[indexPath.item], itemRow: indexPath.item)
+        default:
+            cell.itemImageView.image = .mainPoster
+        }
+        
         return cell
     }
 }
