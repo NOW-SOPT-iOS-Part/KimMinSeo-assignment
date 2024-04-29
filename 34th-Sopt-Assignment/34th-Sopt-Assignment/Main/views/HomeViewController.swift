@@ -25,6 +25,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     private let profile = UIImageView()
     private let explainLabel = UILabel()
     private let contentLabel = UILabel()
+    private let popularLabel = UILabel()
     private let showAll = UILabel()
     private let arrow = UIButton()
     
@@ -64,7 +65,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         
       
         
-        [mainPoster, gradientView,gradientView2, tvingLogo,airplay, profile, explainLabel,contentLabel, showAll, arrow, contentCollectionView].forEach {
+        [mainPoster, gradientView,gradientView2, tvingLogo,airplay, profile, explainLabel,contentLabel,popularLabel, showAll, arrow, contentCollectionView].forEach {
             contentView.addSubview($0)
         }
    
@@ -79,7 +80,9 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
    
         
         scrollView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalToSuperview().inset(-40)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(50)
         }
         
         contentView.snp.makeConstraints {
@@ -128,6 +131,10 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         contentLabel.snp.makeConstraints {
             $0.top.equalTo(mainPoster.snp.bottom).offset(43)
             $0.leading.equalToSuperview().inset(15)
+        }
+        popularLabel.snp.makeConstraints {
+            $0.top.equalTo(contentCollectionView.snp.bottom).offset(18)
+            $0.leading.equalTo(contentLabel.snp.leading)
         }
         arrow.snp.makeConstraints {
             $0.top.equalTo(mainPoster.snp.bottom).offset(47)
@@ -180,6 +187,12 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
             $0.textAlignment = .center
             $0.font = UIFont(name: "Pretendard-Semibold", size: 17)
         }
+        popularLabel.do {
+            $0.text = "인기 LIVE 채널"
+            $0.textColor = .white
+            $0.textAlignment = .center
+            $0.font = UIFont(name: "Pretendard-Semibold", size: 17)
+        }
         showAll.do {
             $0.text = "전체보기"
             $0.textColor = UIColor(resource: .gray3)
@@ -217,9 +230,6 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: -5, left: 0, bottom: 10, right: 0)
     }
-    
-
-    
 }
 
 extension HomeViewController: UICollectionViewDataSource {

@@ -13,8 +13,9 @@ import Then
 final class MainViewController: UITabBarController{
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-     
+        self.navigationController?.navigationBar.isHidden = true
         navigationItem.hidesBackButton = true
         setTabbar()
         setAttribute()
@@ -36,6 +37,7 @@ final class MainViewController: UITabBarController{
 
     // MARK: - Tabbar 화면이동 및 눌렸을때/눌리지 않았을때 이미지 Set
     func setAttribute() {
+        
             viewControllers = [
               createNavController(for: HomeViewController(), title: NSLocalizedString("홈", comment: ""), image: UIImage(named: "home")!, selectedImage: UIImage(named: "home")!), //UIImage(named)들은 바꾸셔야합니다.
               createNavController(for: ExpectedViewController(), title: NSLocalizedString("공개예정", comment: ""), image: UIImage(named: "expected")!, selectedImage: UIImage(named: "expected")!),

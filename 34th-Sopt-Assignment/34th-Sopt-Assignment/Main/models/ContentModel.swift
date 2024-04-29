@@ -20,6 +20,8 @@ extension ContentModel {
             ContentModel(itemImg: .subPoster2, title: "히로인"),
             ContentModel(itemImg: .subPoster3, title: "하이큐!! 투 더 탑"),
             ContentModel(itemImg: .subPoster4, title: "너에게 닿기를"),
+            ContentModel(itemImg: .subPoster5, title: "그시절 우리가 좋아했던 소녀"),
+            ContentModel(itemImg: .subPoster5, title: "그시절 우리가 좋아했던 소녀"),
             ContentModel(itemImg: .subPoster5, title: "그시절 우리가 좋아했던 소녀")
         ]
     }
