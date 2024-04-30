@@ -40,9 +40,6 @@ class CarouselViewController: UIViewController {
         setDelegate()
         setLayout()
         
-        
-        
-        
     }
     
     func setLayout() {
@@ -78,7 +75,7 @@ class CarouselViewController: UIViewController {
             $0.isScrollEnabled = true
             $0.showsHorizontalScrollIndicator = false
             $0.showsVerticalScrollIndicator = true
-            $0.backgroundColor = .white
+            $0.backgroundColor = .clear
             $0.clipsToBounds = true
             $0.register(MainPosterCollectionViewCell.self, forCellWithReuseIdentifier: MainPosterCollectionViewCell.id)
             $0.isPagingEnabled = false
