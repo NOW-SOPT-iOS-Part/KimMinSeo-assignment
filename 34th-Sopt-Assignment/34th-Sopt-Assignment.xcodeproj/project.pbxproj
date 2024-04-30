@@ -31,6 +31,9 @@
 		0D95BACD2BE01101000E6FEB /* ExpectedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D95BACC2BE01101000E6FEB /* ExpectedViewController.swift */; };
 		0D95BACF2BE01119000E6FEB /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D95BACE2BE01119000E6FEB /* SearchViewController.swift */; };
 		0D95BAD12BE01126000E6FEB /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D95BAD02BE01126000E6FEB /* HistoryViewController.swift */; };
+		0D95BAD32BE08CA9000E6FEB /* MainPosterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D95BAD22BE08CA9000E6FEB /* MainPosterModel.swift */; };
+		0D95BAD72BE0987F000E6FEB /* MainPosterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D95BAD62BE0987F000E6FEB /* MainPosterCollectionViewCell.swift */; };
+		0D95BAD92BE0CCBE000E6FEB /* CarouselViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D95BAD82BE0CCBE000E6FEB /* CarouselViewController.swift */; };
 		0DDAD0AA2BCD4EAE00047146 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDAD0A92BCD4EAE00047146 /* BottomSheetViewController.swift */; };
 		0DEEBBE72BD8C7B000B18B5B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEEBBE62BD8C7B000B18B5B /* HomeViewController.swift */; };
 		0DEEBBEC2BD9093000B18B5B /* ContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEEBBEB2BD9093000B18B5B /* ContentModel.swift */; };
@@ -60,6 +63,9 @@
 		0D95BACC2BE01101000E6FEB /* ExpectedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpectedViewController.swift; sourceTree = "<group>"; };
 		0D95BACE2BE01119000E6FEB /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		0D95BAD02BE01126000E6FEB /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
+		0D95BAD22BE08CA9000E6FEB /* MainPosterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPosterModel.swift; sourceTree = "<group>"; };
+		0D95BAD62BE0987F000E6FEB /* MainPosterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPosterCollectionViewCell.swift; sourceTree = "<group>"; };
+		0D95BAD82BE0CCBE000E6FEB /* CarouselViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselViewController.swift; sourceTree = "<group>"; };
 		0DDAD0A92BCD4EAE00047146 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		0DEEBBE62BD8C7B000B18B5B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		0DEEBBEB2BD9093000B18B5B /* ContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentModel.swift; sourceTree = "<group>"; };
@@ -83,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				0DEEBBEB2BD9093000B18B5B /* ContentModel.swift */,
+				0D95BAD22BE08CA9000E6FEB /* MainPosterModel.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -91,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				0D03C5612BDBB13700CCA04C /* ContentCollectionViewCell.swift */,
+				0D95BAD62BE0987F000E6FEB /* MainPosterCollectionViewCell.swift */,
 			);
 			path = cells;
 			sourceTree = "<group>";
@@ -153,6 +161,7 @@
 				0D95BACC2BE01101000E6FEB /* ExpectedViewController.swift */,
 				0D95BACE2BE01119000E6FEB /* SearchViewController.swift */,
 				0D95BAD02BE01126000E6FEB /* HistoryViewController.swift */,
+				0D95BAD82BE0CCBE000E6FEB /* CarouselViewController.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -257,9 +266,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				0DEEBBE72BD8C7B000B18B5B /* HomeViewController.swift in Sources */,
+				0D95BAD72BE0987F000E6FEB /* MainPosterCollectionViewCell.swift in Sources */,
 				0DEEBBEC2BD9093000B18B5B /* ContentModel.swift in Sources */,
 				0D95BACD2BE01101000E6FEB /* ExpectedViewController.swift in Sources */,
+				0D95BAD92BE0CCBE000E6FEB /* CarouselViewController.swift in Sources */,
 				0D4159702BC0EFBF0020C0C5 /* LoginViewController.swift in Sources */,
+				0D95BAD32BE08CA9000E6FEB /* MainPosterModel.swift in Sources */,
 				0D95BACF2BE01119000E6FEB /* SearchViewController.swift in Sources */,
 				0D95BAC92BE00887000E6FEB /* MainViewController.swift in Sources */,
 				0DDAD0AA2BCD4EAE00047146 /* BottomSheetViewController.swift in Sources */,

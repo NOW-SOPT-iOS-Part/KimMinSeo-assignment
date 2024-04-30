@@ -19,6 +19,8 @@ final class MainViewController: UITabBarController{
         navigationItem.hidesBackButton = true
         setTabbar()
         setAttribute()
+        
+        
     }
     
     // MARK: - Tabbar Setting

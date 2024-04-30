@@ -11,19 +11,19 @@ import Then
 import SnapKit
 
 final class HomeViewController: UIViewController, UICollectionViewDelegate {
-    
+  
+    private lazy var carouselViewController: CarouselViewController = {
+        let viewController = CarouselViewController()
+        return viewController
+    }()
+
     //화면 전체 스크롤
     private let scrollView = UIScrollView()
     private var contentView = UIView()
     
-    
-    private let mainPoster = UIImageView()
-    private let gradientView = UIImageView()
-    private let gradientView2 = UIImageView()
     private let tvingLogo = UIImageView()
     private let airplay = UIButton()
     private let profile = UIImageView()
-    private let explainLabel = UILabel()
     private let contentLabel = UILabel()
     private let popularLabel = UILabel()
     private let showAll = UILabel()
@@ -41,13 +41,11 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     }()
     
 
-
     private var itemData = ContentModel.dummy()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-
+       
         setStyle()
         setLayout()
         register()
@@ -58,18 +56,24 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
      
        
         self.view.backgroundColor = .black
-        
         self.view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
+
   
+        [contentView, tvingLogo, profile,airplay].forEach {
+            scrollView.addSubview($0)
+        }
+
         
-      
-        
-        [mainPoster, gradientView,gradientView2, tvingLogo,airplay, profile, explainLabel,contentLabel,popularLabel, showAll, arrow, contentCollectionView].forEach {
+        [carouselViewController.view,contentLabel,popularLabel, showAll, arrow, contentCollectionView].forEach {
             contentView.addSubview($0)
         }
    
         
+        carouselViewController.view.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(500)
+        }
         contentCollectionView.snp.makeConstraints {
             $0.top.equalTo(contentLabel.snp.bottom).offset(5)
             $0.leading.equalToSuperview().inset(15)
@@ -80,7 +84,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
    
         
         scrollView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(-40)
+            $0.top.equalToSuperview().inset(-50)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().inset(50)
         }
@@ -91,45 +95,28 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
             $0.height.greaterThanOrEqualToSuperview().priority(.low)
         }
         
-        mainPoster.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(498)
-        }
-        gradientView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(150)
-        }
-        gradientView2.snp.makeConstraints {
-            $0.bottom.equalTo(mainPoster.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(150)
-        }
+       
         tvingLogo.snp.makeConstraints {
-            $0.top.equalTo(mainPoster.snp.top).inset(15)
+            $0.top.equalToSuperview().inset(30)
             $0.leading.equalToSuperview().inset(15)
             $0.width.equalTo(84)
             $0.height.equalTo(21)
         }
         airplay.snp.makeConstraints {
             $0.top.equalTo(profile.snp.top).offset(3)
-            $0.trailing.equalTo(profile.snp.leading).offset(-25)
+            $0.trailing.equalTo(profile.snp.leading).offset(-15)
             $0.width.equalTo(22)
             $0.height.equalTo(16)
         }
         profile.snp.makeConstraints {
-            $0.top.equalTo(mainPoster.snp.top).inset(15)
+            $0.bottom.equalTo(tvingLogo.snp.bottom)
             $0.trailing.equalToSuperview().inset(15)
             $0.width.equalTo(23)
             $0.height.equalTo(23)
         }
-        explainLabel.snp.makeConstraints {
-            $0.bottom.equalTo(mainPoster.snp.bottom).offset(20)
-            $0.leading.equalTo(mainPoster.snp.leading).offset(15)
-        }
+        
         contentLabel.snp.makeConstraints {
-            $0.top.equalTo(mainPoster.snp.bottom).offset(43)
+            $0.top.equalTo(tvingLogo.snp.bottom).offset(500)
             $0.leading.equalToSuperview().inset(15)
         }
         popularLabel.snp.makeConstraints {
@@ -137,13 +124,13 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
             $0.leading.equalTo(contentLabel.snp.leading)
         }
         arrow.snp.makeConstraints {
-            $0.top.equalTo(mainPoster.snp.bottom).offset(47)
+            $0.bottom.equalTo(contentLabel.snp.bottom).offset(-2)
             $0.trailing.equalToSuperview().inset(12)
             $0.width.equalTo(10)
             $0.height.equalTo(10)
         }
         showAll.snp.makeConstraints {
-            $0.top.equalTo(mainPoster.snp.bottom).offset(44)
+            $0.bottom.equalTo(contentLabel.snp.bottom)
             $0.trailing.equalTo(arrow.snp.leading)
         }
         
@@ -154,15 +141,6 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     private func setStyle() {
         self.navigationController?.navigationBar.isHidden = true
         
-        mainPoster.do {
-            $0.image = UIImage(resource: .mainPoster)
-        }
-        gradientView.do {
-            $0.image = UIImage(resource: .gradient)
-        }
-        gradientView2.do {
-            $0.image = UIImage(resource: .gradient2)
-        }
         tvingLogo.do {
             $0.image = UIImage(resource: .tvingLogo)
         }
@@ -174,13 +152,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
             $0.layer.cornerRadius = 3
             $0.clipsToBounds = true
         }
-        explainLabel.do {
-            $0.text = "[민서의 추천 드라마] 한소희 존예 송강 존잘\n두번 보세요~ 세번 보세요~~"
-            $0.textColor = UIColor.white
-            $0.textAlignment = .left
-            $0.numberOfLines = 2
-            $0.font = UIFont(name: "Pretendard-Medium", size: 15)
-        }
+     
         contentLabel.do {
             $0.text = "티빙에서 꼭 봐야하는 콘텐츠"
             $0.textColor = .white
