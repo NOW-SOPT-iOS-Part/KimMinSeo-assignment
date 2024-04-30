@@ -22,7 +22,7 @@ extension ContentModel {
             ContentModel(itemImg: .subPoster4, title: "너에게 닿기를"),
             ContentModel(itemImg: .subPoster5, title: "그시절 우리가 좋아했던 소녀"),
             ContentModel(itemImg: .mainPoster4, title: "반짝이는 워터멜론"),
-            ContentModel(itemImg: .mainPoster3, title: "아따맘마 Part 3")
+            ContentModel(itemImg: .mainPoster3, title: "아따맘마 Part3")
         ]
     }
 }
