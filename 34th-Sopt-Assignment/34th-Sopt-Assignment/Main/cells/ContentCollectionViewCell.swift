@@ -43,7 +43,10 @@ class ContentCollectionViewCell: UICollectionViewCell {
     }
     
     
-    
+    //박스오피스 API 정보 가져오기
+    private func requestBoxOfficeInfo() {
+        
+    }
     private func setStyle() {
         titleLabel.do {
             $0.text = "제목"
