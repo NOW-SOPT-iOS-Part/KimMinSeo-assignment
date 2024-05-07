@@ -55,6 +55,7 @@ final class WelcomeViewController: UIViewController {
             $0.setTitleColor(.white, for: .normal)
             $0.titleLabel?.font = UIFont(name: "Pretendard-Semibold", size: 14)
             $0.layer.cornerRadius = 3
+            $0.addTarget(self, action: #selector(mainButtonDidTap), for: .touchUpInside)
         }
     }
     
@@ -94,7 +95,10 @@ final class WelcomeViewController: UIViewController {
         }
         
     }
-    
+    @objc
+    private func mainButtonDidTap() {
+        pushToWelcomeVC()
+    }
     //데이터 바인딩 함수 구현 -> 옵셔널 바인딩 사용
     private func bindID() {
         guard let idText = id else { return }
@@ -104,7 +108,11 @@ final class WelcomeViewController: UIViewController {
     func setLabelText(id: String?) {
         self.id = id
     }
-    
+    //화면 전환
+    private func pushToWelcomeVC() {
+        let mainViewController = MainViewController()
+        self.navigationController?.pushViewController(mainViewController, animated: true)
+    }
     
     @objc
     private func backToLoginButtonDidTap() {
