@@ -10,6 +10,16 @@ import UIKit
 import Then
 import SnapKit
 
+//구조체 만들기
+struct MovieData : Codable {
+    let boxOfficeResult : BoxOfficeResult
+}
+struct BoxOfficeResult : Codable {
+    let dailyBoxOfficeList : [DailyBoxOfficeList]
+}
+struct DailyBoxOfficeList : Codable {
+    let movieNM : String
+}
 final class HomeViewController: UIViewController, UICollectionViewDelegate {
   
     private lazy var carouselViewController: CarouselViewController = {
