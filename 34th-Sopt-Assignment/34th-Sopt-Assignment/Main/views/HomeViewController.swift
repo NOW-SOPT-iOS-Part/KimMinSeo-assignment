@@ -19,7 +19,11 @@ struct BoxOfficeResult : Codable {
 }
 struct DailyBoxOfficeList : Codable {
     let movieNm : String
+    let rank : String
 }
+
+
+
 final class HomeViewController: UIViewController, UICollectionViewDelegate {
     
     private lazy var carouselViewController: CarouselViewController = {
@@ -27,10 +31,12 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         return viewController
     }()
     
-    private var itemData = ContentResponseModel.dummy()
-    
     let movieURL = "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=727bb3a7287af4fed4dbdd132caad537&targetDt=20171101"
+    
+    private var itemData = ContentResponseModel.dummy()
     private var movieTitles: [String] = []
+    private var movieRanks: [String] = []
+    
     
     //화면 전체 스크롤
     private let scrollView = UIScrollView()
@@ -43,6 +49,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     private let popularLabel = UILabel()
     private let showAll = UILabel()
     private let arrow = UIButton()
+   
     
     
     //API가져오기
@@ -64,6 +71,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
                         DispatchQueue.main.async {
                             for dailyBoxOffice in decedeMovieData.boxOfficeResult.dailyBoxOfficeList {
                                 self.movieTitles.append(dailyBoxOffice.movieNm)
+                                self.movieRanks.append(dailyBoxOffice.rank)
                             }
                             self.contentCollectionView.reloadData() // 콜렉션 뷰 갱신
                         }
@@ -206,7 +214,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         }
         
         contentLabel.do {
-            $0.text = "티빙에서 꼭 봐야하는 콘텐츠"
+            $0.text = "박스 오피스 순위!"
             $0.textColor = .white
             $0.textAlignment = .center
             $0.font = UIFont(name: "Pretendard-Semibold", size: 17)
@@ -267,10 +275,12 @@ extension HomeViewController: UICollectionViewDataSource {
         
         // movieTitles 배열에서 영화 제목을 가져와 셀에 바인딩
         cell.titleLabel.text = movieTitles[indexPath.item]
+        cell.rankLabel.text = movieRanks[indexPath.item]
         
         // itemData 배열에서 이미지를 가져와 셀에 바인딩
         if indexPath.item < itemData.count {
             cell.itemImageView.image = itemData[indexPath.item].itemImg
+            //cell.rankLabel.text = itemData[indexPath.item].rank
         }
         
         return cell

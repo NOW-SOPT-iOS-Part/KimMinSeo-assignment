@@ -22,10 +22,10 @@ class ContentCollectionViewCell: UICollectionViewCell {
     //셀을 구분하기 위한 식별자
     static let identifier = "ItemCollectionViewCell"
         
-    
-    //이미지
     let itemImageView = UIImageView()
     let titleLabel = UILabel()
+    let rankLabel = UILabel()
+    let gradientView = UIImageView()
     
     var itemRow: Int?
 
@@ -43,38 +43,31 @@ class ContentCollectionViewCell: UICollectionViewCell {
     }
     
     
-//    //박스오피스 API 정보 가져오기
-//    private func requestBoxOfficeInfo() {
-//        BoxOffice.shared.getMovieInfo(targetDt: "20171101"){ [weak self] response in
-//            switch response {
-//            case .success(let data):
-//                guard let data = data as? ContentResponseModel else {
-//                    return }
-//                self?.titleLabel.text = data.data.movieNm
-//            case .requestErr:
-//                print("요청 오류 입니다")
-//            case .decodedErr:
-//                print("디코딩 오류 입니다")
-//            case .pathErr:
-//                print("경로 오류 입니다")
-//            case .serverErr:
-//                print("서버 오류입니다")
-//            case .networkFail:
-//                print("네ㅋㅂ트워크 오류입니다")
-//            }
-//        }
-//    }
+
     private func setStyle() {
+        itemImageView.do {
+            $0.layer.cornerRadius = 3
+            $0.clipsToBounds = true
+        }
         titleLabel.do {
             $0.text = "제목"
             $0.textColor = UIColor(resource: .gray2)
             $0.textAlignment = .left
             $0.font = UIFont(name: "Pretendard-Medium", size: 13)
         }
+        gradientView.do {
+            $0.image = UIImage(resource: .gradient3)
+        }
+        rankLabel.do {
+            $0.text = "1"
+            $0.textColor = .white
+            $0.textAlignment = .left
+            $0.font = UIFont(name: "Pretendard-Bold", size: 25)
+        }
     }
     
     private func setLayout() {
-        [itemImageView, titleLabel].forEach {
+        [itemImageView,gradientView, titleLabel, rankLabel].forEach {
             contentView.addSubview($0)
         }
         
@@ -84,10 +77,20 @@ class ContentCollectionViewCell: UICollectionViewCell {
             $0.height.equalTo(146)
 
         }
+        gradientView.snp.makeConstraints {
+            $0.top.equalTo(itemImageView.snp.top)
+            $0.leading.equalTo(itemImageView.snp.leading)
+            $0.trailing.equalTo(itemImageView.snp.trailing)
+            $0.height.equalTo(25)
+        }
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(itemImageView.snp.bottom)
             $0.leading.equalTo(itemImageView.snp.leading)
             $0.trailing.equalTo(itemImageView.snp.trailing)
+        }
+        rankLabel.snp.makeConstraints {
+            $0.top.equalTo(itemImageView.snp.top).inset(2)
+            $0.leading.equalTo(itemImageView.snp.leading).inset(3)
         }
      
     }
@@ -97,7 +100,8 @@ class ContentCollectionViewCell: UICollectionViewCell {
 extension ContentCollectionViewCell {
     func dataBind(_ contentData: ContentResponseModel, itemRow: Int) {
         itemImageView.image = contentData.itemImg
-        //titleLabel.text = contentData.title
+        titleLabel.text = contentData.title
+        rankLabel.text = contentData.rank
         self.itemRow = itemRow
     }
 }
