@@ -17,6 +17,11 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         return viewController
     }()
 
+    private var itemData = ContentResponseModel.dummy()
+    
+    let movieURL = "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=727bb3a7287af4fed4dbdd132caad537&targetDt=20171101"
+    
+    
     //화면 전체 스크롤
     private let scrollView = UIScrollView()
     private var contentView = UIView()
@@ -30,7 +35,24 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     private let arrow = UIButton()
     
 
-    
+    //API가져오기
+    func getData(){
+        if let url = URL(string: movieURL) {
+            let session = URLSession(configuration: .default)
+            let task = session.dataTask(with: url) { (data, response, error) in
+                if error != nil {
+                    print(error!)
+                    return
+                }
+                if let JSONdata = data {
+                    //print(JSONdata ,response!, "🙋🏻‍♂️")
+                    let dataString = String(data: JSONdata, encoding: .utf8)
+                    print(dataString!)
+                }
+            }
+            task.resume()
+        }
+    }
     //콜렉션 뷰
     private let contentCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -41,7 +63,13 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     }()
     
 
-    private var itemData = ContentModel.dummy()
+//    private var itemData: [ContentResponseModel] = [] {
+//        didSet {
+//            DispatchQueue.main.async {
+//                self.contentCollectionView.reloadData()
+//            }
+//        }
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +78,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         setLayout()
         register()
         setDelegate()
+        getData()
     }
     
     private func setLayout() {
@@ -197,7 +226,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 8 // 셀 간의 간격을 없앰
+        return 8 // 셀 간의 간격
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: -5, left: 0, bottom: 10, right: 0)

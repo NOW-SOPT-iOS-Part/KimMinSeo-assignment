@@ -10,24 +10,19 @@ import UIKit
 
 struct ContentResponseModel {
     let itemImg: UIImage
-    let data: DataClass
-}
-
-struct DataClass: Codable {
-    let movieNm : String
+    let title : String
 }
 
 extension ContentResponseModel {
     static func dummy() -> [ContentResponseModel] {
         return [
-            ContentResponseModel(itemImg: UIImage(named: "subPoster1")!, data: DataClass(movieNm: "선재 업고 튀어")),
-            ContentResponseModel(itemImg: UIImage(named: "subPoster2")!, data: DataClass(movieNm: "히로인 실격")),
-            ContentResponseModel(itemImg: UIImage(named: "subPoster3")!, data: DataClass(movieNm: "하이큐!! 투 더 탑")),
-            ContentResponseModel(itemImg: UIImage(named: "subPoster4")!, data: DataClass(movieNm: "너에게 닿기를")),
-            ContentResponseModel(itemImg: UIImage(named: "subPoster5")!, data: DataClass(movieNm: "그시절 우리가 좋아했던 소녀")),
-            ContentResponseModel(itemImg: UIImage(named: "mainPoster4")!, data: DataClass(movieNm: "반짝이는 워터멜론")),
-            ContentResponseModel(itemImg: UIImage(named: "mainPoster3")!, data: DataClass(movieNm: "아따맘마 Part3"))
+            ContentResponseModel(itemImg: .subPoster1, title: "선재 업고 튀어"),
+            ContentResponseModel(itemImg: .subPoster2, title: "히로인 실격"),
+            ContentResponseModel(itemImg: .subPoster3, title: "하이큐!! 투 더 탑"),
+            ContentResponseModel(itemImg: .subPoster4, title: "너에게 닿기를"),
+            ContentResponseModel(itemImg: .subPoster5, title: "그시절 우리가 좋아했던 소녀"),
+            ContentResponseModel(itemImg: .mainPoster4, title: "반짝이는 워터멜론"),
+            ContentResponseModel(itemImg: .mainPoster3, title: "아따맘마 Part3")
         ]
     }
 }
-

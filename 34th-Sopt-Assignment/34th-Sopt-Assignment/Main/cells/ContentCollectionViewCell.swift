@@ -43,10 +43,27 @@ class ContentCollectionViewCell: UICollectionViewCell {
     }
     
     
-    //박스오피스 API 정보 가져오기
-    private func requestBoxOfficeInfo() {
-        
-    }
+//    //박스오피스 API 정보 가져오기
+//    private func requestBoxOfficeInfo() {
+//        BoxOffice.shared.getMovieInfo(targetDt: "20171101"){ [weak self] response in
+//            switch response {
+//            case .success(let data):
+//                guard let data = data as? ContentResponseModel else {
+//                    return }
+//                self?.titleLabel.text = data.data.movieNm
+//            case .requestErr:
+//                print("요청 오류 입니다")
+//            case .decodedErr:
+//                print("디코딩 오류 입니다")
+//            case .pathErr:
+//                print("경로 오류 입니다")
+//            case .serverErr:
+//                print("서버 오류입니다")
+//            case .networkFail:
+//                print("네ㅋㅂ트워크 오류입니다")
+//            }
+//        }
+//    }
     private func setStyle() {
         titleLabel.do {
             $0.text = "제목"
@@ -78,9 +95,9 @@ class ContentCollectionViewCell: UICollectionViewCell {
 }
 
 extension ContentCollectionViewCell {
-    func dataBind(_ contentData: ContentModel, itemRow: Int) {
+    func dataBind(_ contentData: ContentResponseModel, itemRow: Int) {
         itemImageView.image = contentData.itemImg
-        titleLabel.text = contentData.title
+        //titleLabel.text = contentData.title
         self.itemRow = itemRow
     }
 }
