@@ -264,10 +264,18 @@ extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContentCollectionViewCell.identifier, for: indexPath) as? ContentCollectionViewCell else { return UICollectionViewCell() }
+        
         // movieTitles 배열에서 영화 제목을 가져와 셀에 바인딩
         cell.titleLabel.text = movieTitles[indexPath.item]
+        
+        // itemData 배열에서 이미지를 가져와 셀에 바인딩
+        if indexPath.item < itemData.count {
+            cell.itemImageView.image = itemData[indexPath.item].itemImg
+        }
+        
         return cell
     }
+
     
 }
 
