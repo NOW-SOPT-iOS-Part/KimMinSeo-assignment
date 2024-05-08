@@ -18,15 +18,15 @@ struct BoxOfficeResult : Codable {
     let dailyBoxOfficeList : [DailyBoxOfficeList]
 }
 struct DailyBoxOfficeList : Codable {
-    let movieNM : String
+    let movieNm : String
 }
 final class HomeViewController: UIViewController, UICollectionViewDelegate {
-  
+    
     private lazy var carouselViewController: CarouselViewController = {
         let viewController = CarouselViewController()
         return viewController
     }()
-
+    
     private var itemData = ContentResponseModel.dummy()
     
     let movieURL = "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=727bb3a7287af4fed4dbdd132caad537&targetDt=20171101"
@@ -44,7 +44,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     private let showAll = UILabel()
     private let arrow = UIButton()
     
-
+    
     //API가져오기
     func getData(){
         if let url = URL(string: movieURL) {
@@ -55,9 +55,15 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
                     return
                 }
                 if let JSONdata = data {
-                    //print(JSONdata ,response!, "🙋🏻‍♂️")
                     let dataString = String(data: JSONdata, encoding: .utf8)
-                    print(dataString!)
+                    //print(dataString!, "🙋🏻‍♂️")
+                    let decoder = JSONDecoder()
+                    do{
+                        let decedeMovieData = try decoder.decode(MovieData.self, from: JSONdata)
+                        print(decedeMovieData.boxOfficeResult.dailyBoxOfficeList[0].movieNm,"🐈‍⬛")
+                    }catch{
+                        print(error,"🚨") 
+                    }
                 }
             }
             task.resume()
@@ -72,18 +78,18 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         return collectionView
     }()
     
-
-//    private var itemData: [ContentResponseModel] = [] {
-//        didSet {
-//            DispatchQueue.main.async {
-//                self.contentCollectionView.reloadData()
-//            }
-//        }
-//    }
+    
+    //    private var itemData: [ContentResponseModel] = [] {
+    //        didSet {
+    //            DispatchQueue.main.async {
+    //                self.contentCollectionView.reloadData()
+    //            }
+    //        }
+    //    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         setStyle()
         setLayout()
         register()
@@ -92,21 +98,21 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     }
     
     private func setLayout() {
-     
-       
+        
+        
         self.view.backgroundColor = .black
         self.view.addSubview(scrollView)
-
-  
+        
+        
         [contentView, tvingLogo, profile,airplay].forEach {
             scrollView.addSubview($0)
         }
-
+        
         
         [carouselViewController.view,contentLabel,popularLabel, showAll, arrow, contentCollectionView].forEach {
             contentView.addSubview($0)
         }
-   
+        
         
         carouselViewController.view.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -120,7 +126,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
             $0.height.equalTo(163)
         }
         
-   
+        
         
         scrollView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(-50)
@@ -134,7 +140,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
             $0.height.greaterThanOrEqualToSuperview().priority(.low)
         }
         
-       
+        
         tvingLogo.snp.makeConstraints {
             $0.top.equalToSuperview().inset(30)
             $0.leading.equalToSuperview().inset(15)
@@ -175,8 +181,8 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         
         
     }
-
-
+    
+    
     private func setStyle() {
         self.navigationController?.navigationBar.isHidden = true
         
@@ -191,7 +197,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
             $0.layer.cornerRadius = 3
             $0.clipsToBounds = true
         }
-     
+        
         contentLabel.do {
             $0.text = "티빙에서 꼭 봐야하는 콘텐츠"
             $0.textColor = .white
@@ -214,7 +220,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
             $0.setImage(UIImage(resource: .arrow), for: .normal)
         }
         
- 
+        
     }
     
     private func register() {
@@ -254,6 +260,6 @@ extension HomeViewController: UICollectionViewDataSource {
         cell.dataBind(itemData[indexPath.item], itemRow: indexPath.item)
         return cell
     }
-
+    
 }
 
