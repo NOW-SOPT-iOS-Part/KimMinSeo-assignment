@@ -30,7 +30,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     private var itemData = ContentResponseModel.dummy()
     
     let movieURL = "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=727bb3a7287af4fed4dbdd132caad537&targetDt=20171101"
-    
+    private var movieTitles: [String] = []
     
     //화면 전체 스크롤
     private let scrollView = UIScrollView()
@@ -58,12 +58,19 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
                     let dataString = String(data: JSONdata, encoding: .utf8)
                     //print(dataString!, "🙋🏻‍♂️")
                     let decoder = JSONDecoder()
-                    do{
+                    do {
                         let decedeMovieData = try decoder.decode(MovieData.self, from: JSONdata)
-                        print(decedeMovieData.boxOfficeResult.dailyBoxOfficeList[0].movieNm,"🐈‍⬛")
-                    }catch{
-                        print(error,"🚨") 
+                        // 클로저 내부에서 self를 명시적으로 캡처하여야 함
+                        DispatchQueue.main.async {
+                            for dailyBoxOffice in decedeMovieData.boxOfficeResult.dailyBoxOfficeList {
+                                self.movieTitles.append(dailyBoxOffice.movieNm)
+                            }
+                            self.contentCollectionView.reloadData() // 콜렉션 뷰 갱신
+                        }
+                    } catch {
+                        print(error,"🚨")
                     }
+
                 }
             }
             task.resume()
@@ -252,14 +259,16 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return itemData.count
+        return movieTitles.count // movieTitles 배열의 크기 반환
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContentCollectionViewCell.identifier, for: indexPath) as? ContentCollectionViewCell else { return UICollectionViewCell() }
-        cell.dataBind(itemData[indexPath.item], itemRow: indexPath.item)
+        // movieTitles 배열에서 영화 제목을 가져와 셀에 바인딩
+        cell.titleLabel.text = movieTitles[indexPath.item]
         return cell
     }
     
 }
+
 
