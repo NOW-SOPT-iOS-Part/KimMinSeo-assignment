@@ -5,10 +5,12 @@
 //  Created by 김민서 on 4/24/24.
 //
 
-import Foundation
 import UIKit
 import Then
 import SnapKit
+import Moya
+
+
 
 //구조체 만들기
 struct MovieData : Codable {
