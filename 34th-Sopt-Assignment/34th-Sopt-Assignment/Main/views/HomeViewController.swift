@@ -33,7 +33,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         return viewController
     }()
     
-    let movieURL = "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=727bb3a7287af4fed4dbdd132caad537&targetDt=20171101"
+    private var provider = MoyaProvider<MovieTargetType>()
     
     private var itemData = ContentResponseModel.dummy()
     private var movieTitles: [String] = []
@@ -51,41 +51,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     private let popularLabel = UILabel()
     private let showAll = UILabel()
     private let arrow = UIButton()
-   
     
-    
-    //API가져오기
-    func getData(){
-        if let url = URL(string: movieURL) {
-            let session = URLSession(configuration: .default)
-            let task = session.dataTask(with: url) { (data, response, error) in
-                if error != nil {
-                    print(error!)
-                    return
-                }
-                if let JSONdata = data {
-                    let dataString = String(data: JSONdata, encoding: .utf8)
-                    //print(dataString!, "🙋🏻‍♂️")
-                    let decoder = JSONDecoder()
-                    do {
-                        let decedeMovieData = try decoder.decode(MovieData.self, from: JSONdata)
-                        // 클로저 내부에서 self를 명시적으로 캡처하여야 함
-                        DispatchQueue.main.async {
-                            for dailyBoxOffice in decedeMovieData.boxOfficeResult.dailyBoxOfficeList {
-                                self.movieTitles.append(dailyBoxOffice.movieNm)
-                                self.movieRanks.append(dailyBoxOffice.rank)
-                            }
-                            self.contentCollectionView.reloadData() // 콜렉션 뷰 갱신
-                        }
-                    } catch {
-                        print(error,"🚨")
-                    }
-
-                }
-            }
-            task.resume()
-        }
-    }
     //콜렉션 뷰
     private let contentCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -96,14 +62,37 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     }()
     
     
-    //    private var itemData: [ContentResponseModel] = [] {
-    //        didSet {
-    //            DispatchQueue.main.async {
-    //                self.contentCollectionView.reloadData()
-    //            }
-    //        }
-    //    }
-    
+    //API가져오기
+    private func getData() {
+        MovieService.shared.getDailyBoxOfficeList { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let decodedData):
+                var movieTitles: [String] = []
+                var movieRanks: [String] = []
+                for dailyBoxOffice in decodedData.boxOfficeResult.dailyBoxOfficeList {
+                    movieTitles.append(dailyBoxOffice.movieNm)
+                    movieRanks.append(dailyBoxOffice.rank)
+                }
+                DispatchQueue.main.async {
+                    self.movieTitles = movieTitles
+                    self.movieRanks = movieRanks
+                    self.contentCollectionView.reloadData()
+                }
+            case .requestErr:
+                print("요청 오류 입니다")
+            case .decodedErr:
+                print("디코딩 오류 입니다")
+            case .pathErr:
+                print("경로 오류 입니다")
+            case .serverErr:
+                print("서버 오류입니다")
+            case .networkFail:
+                print("네트워크 오류입니다")
+            }
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         

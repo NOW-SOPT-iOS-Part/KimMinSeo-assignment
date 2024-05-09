@@ -10,7 +10,7 @@ import Moya
 
 
 enum MovieTargetType {
-    case dailyBoxOfficeList
+    case dailyBoxOfficeList(date: String)
 }
 
 extension MovieTargetType: TargetType {
@@ -21,7 +21,7 @@ extension MovieTargetType: TargetType {
     var path: String {
         switch self {
         case .dailyBoxOfficeList:
-            return "key=727bb3a7287af4fed4dbdd132caad537&targetDt=20171101"
+            return ""
         }
     }
     
@@ -32,10 +32,21 @@ extension MovieTargetType: TargetType {
         }
     }
     
+    var parameters: [String: Any]? {
+        switch self {
+        case .dailyBoxOfficeList(let date):
+            return ["key": Config.apiKey, "targetDt": date]
+        }
+    }
+    
     var task: Task {
         switch self {
         case .dailyBoxOfficeList:
-            return .requestPlain
+            if let parameters = parameters {
+                return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
+            } else {
+                return .requestPlain
+            }
         }
     }
     
