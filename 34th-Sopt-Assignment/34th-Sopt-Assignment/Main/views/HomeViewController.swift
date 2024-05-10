@@ -92,7 +92,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+     
         setStyle()
         setLayout()
         register()
@@ -109,6 +109,12 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         [carouselViewController.view,tvingLogo, profile,airplay,contentLabel,popularLabel, showAll, arrow, contentCollectionView].forEach {
             contentView.addSubview($0)
         }
+        //이게 뭔지 모르겠지만 뭔가 해결이 되긴함
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            let statusBarHeight = windowScene.statusBarManager?.statusBarFrame.height ?? 0
+            scrollView.contentInset = UIEdgeInsets(top: -statusBarHeight, left: 0, bottom: 0, right: 0)
+        }
+
 
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
