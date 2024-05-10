@@ -67,9 +67,7 @@ class ContentCollectionViewCell: UICollectionViewCell {
     }
     
     private func setLayout() {
-        [itemImageView,gradientView, titleLabel, rankLabel].forEach {
-            contentView.addSubview($0)
-        }
+        addSubviews(itemImageView, gradientView, titleLabel, rankLabel)
         
         itemImageView.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -97,7 +95,17 @@ class ContentCollectionViewCell: UICollectionViewCell {
     
 }
 
+extension UIView {
+    func addSubviews(_ views: UIView...) {
+        views.forEach {
+            self.addSubview($0)
+        }
+    }
+}
+
 extension ContentCollectionViewCell {
+    
+
     func dataBind(_ contentData: ContentResponseModel, itemRow: Int) {
         itemImageView.image = contentData.itemImg
         titleLabel.text = contentData.title

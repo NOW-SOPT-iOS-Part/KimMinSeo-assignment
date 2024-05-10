@@ -5,7 +5,7 @@
 //  Created by 김민서 on 4/30/24.
 //
 
-import Foundation
+
 import UIKit
 import Then
 import SnapKit

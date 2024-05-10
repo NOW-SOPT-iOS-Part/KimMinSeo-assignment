@@ -28,10 +28,7 @@ struct DailyBoxOfficeList : Codable {
 
 final class HomeViewController: UIViewController, UICollectionViewDelegate {
     
-    private lazy var carouselViewController: CarouselViewController = {
-        let viewController = CarouselViewController()
-        return viewController
-    }()
+    private let carouselViewController = CarouselViewController()
     
     private var provider = MoyaProvider<MovieTargetType>()
     
@@ -135,7 +132,7 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         
         
         scrollView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(-50)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().inset(50)
         }
@@ -208,13 +205,13 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
             $0.text = "박스 오피스 순위!"
             $0.textColor = .white
             $0.textAlignment = .center
-            $0.font = UIFont(name: "Pretendard-Semibold", size: 17)
+            $0.font = UIFont.pretendardSB17
         }
         popularLabel.do {
             $0.text = "인기 LIVE 채널"
             $0.textColor = .white
             $0.textAlignment = .center
-            $0.font = UIFont(name: "Pretendard-Semibold", size: 17)
+            $0.font = UIFont.pretendardSB17
         }
         showAll.do {
             $0.text = "전체보기"
@@ -255,6 +252,11 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+extension UIFont {
+    static var pretendardSB17: UIFont {
+        return UIFont(name: "Pretendard-Semibold", size: 17.0)!
+    }
+}
 extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

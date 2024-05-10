@@ -90,10 +90,10 @@ class CarouselViewController: UIViewController {
             indicatorView.layer.cornerRadius = 3
             indicatorView.translatesAutoresizingMaskIntoConstraints = false
             self.indicatorStackView.addArrangedSubview(indicatorView)
-            NSLayoutConstraint.activate([
-                indicatorView.widthAnchor.constraint(equalToConstant: 5),
-                indicatorView.heightAnchor.constraint(equalToConstant: 5),
-            ])
+            
+            indicatorView.snp.makeConstraints {
+                $0.width.height.equalTo(5)
+            }
         }
         indicatorStackView.do {
             $0.axis = .horizontal

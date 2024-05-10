@@ -51,7 +51,7 @@ final class MainViewController: UITabBarController{
    
     
     // MARK: - Tabbar 화면이동 및 눌렸을때/눌리지 않았을때 이미지 Set
-    fileprivate func createNavController(for rootViewController: UIViewController, title: String?, image: UIImage, selectedImage: UIImage) -> UIViewController {
+    func createNavController(for rootViewController: UIViewController, title: String?, image: UIImage, selectedImage: UIImage) -> UIViewController {
         let navController = UINavigationController(rootViewController:  rootViewController)
         navController.tabBarItem.title = title
         navController.tabBarItem.image = image
