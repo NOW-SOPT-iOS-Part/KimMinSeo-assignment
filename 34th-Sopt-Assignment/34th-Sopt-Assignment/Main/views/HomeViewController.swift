@@ -101,27 +101,31 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     }
     
     private func setLayout() {
-        
-        
         self.view.backgroundColor = .black
+
         self.view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
         
-        
-        [contentView, tvingLogo, profile,airplay].forEach {
-            scrollView.addSubview($0)
-        }
-        
-        
-        [carouselViewController.view,contentLabel,popularLabel, showAll, arrow, contentCollectionView].forEach {
+        [carouselViewController.view,tvingLogo, profile,airplay,contentLabel,popularLabel, showAll, arrow, contentCollectionView].forEach {
             contentView.addSubview($0)
         }
-        
+
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+
+        contentView.snp.makeConstraints {
+            $0.edges.equalTo(scrollView)
+            $0.width.equalTo(scrollView)
+            $0.height.greaterThanOrEqualToSuperview().priority(.low)
+        }
         
         carouselViewController.view.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(500)
         }
+        
         contentCollectionView.snp.makeConstraints {
             $0.top.equalTo(contentLabel.snp.bottom).offset(5)
             $0.leading.equalToSuperview().inset(15)
@@ -130,22 +134,8 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         }
         
         
-        
-        scrollView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(50)
-        }
-        
-        contentView.snp.makeConstraints {
-            $0.edges.equalTo(scrollView)
-            $0.edges.width.equalTo(scrollView)
-            $0.height.greaterThanOrEqualToSuperview().priority(.low)
-        }
-        
-        
         tvingLogo.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(30)
+            $0.top.equalToSuperview().inset(58)
             $0.leading.equalToSuperview().inset(15)
             $0.width.equalTo(84)
             $0.height.equalTo(21)
@@ -164,12 +154,13 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
         }
         
         contentLabel.snp.makeConstraints {
-            $0.top.equalTo(tvingLogo.snp.bottom).offset(500)
+            $0.top.equalTo(tvingLogo.snp.bottom).offset(470)
             $0.leading.equalToSuperview().inset(15)
         }
         popularLabel.snp.makeConstraints {
             $0.top.equalTo(contentCollectionView.snp.bottom).offset(18)
             $0.leading.equalTo(contentLabel.snp.leading)
+            $0.bottom.equalTo(contentView)
         }
         arrow.snp.makeConstraints {
             $0.bottom.equalTo(contentLabel.snp.bottom).offset(-2)
@@ -188,7 +179,10 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     
     private func setStyle() {
         self.navigationController?.navigationBar.isHidden = true
-        
+        scrollView.do {
+            $0.showsHorizontalScrollIndicator = false
+            $0.showsVerticalScrollIndicator = false
+        }
         tvingLogo.do {
             $0.image = UIImage(resource: .tvingLogo)
         }
@@ -237,6 +231,12 @@ final class HomeViewController: UIViewController, UICollectionViewDelegate {
     
 }
 
+extension UIFont {
+    static var pretendardSB17: UIFont {
+        return UIFont(name: "Pretendard-Semibold", size: 17.0)!
+    }
+}
+
 
 
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
@@ -252,11 +252,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension UIFont {
-    static var pretendardSB17: UIFont {
-        return UIFont(name: "Pretendard-Semibold", size: 17.0)!
-    }
-}
+
 extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -271,15 +267,10 @@ extension HomeViewController: UICollectionViewDataSource {
         cell.rankLabel.text = movieRanks[indexPath.item]
         
         // itemData 배열에서 이미지를 가져와 셀에 바인딩
-        if indexPath.item < itemData.count {
-            cell.itemImageView.image = itemData[indexPath.item].itemImg
-            //cell.rankLabel.text = itemData[indexPath.item].rank
-        }
-        
+        cell.itemImageView.image = itemData[indexPath.item].itemImg
+            
         return cell
     }
-
-    
 }
 
 

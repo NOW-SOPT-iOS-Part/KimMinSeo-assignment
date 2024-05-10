@@ -76,7 +76,7 @@ class ContentCollectionViewCell: UICollectionViewCell {
 
         }
         gradientView.snp.makeConstraints {
-            $0.top.equalTo(itemImageView.snp.top)
+            $0.top.equalTo(itemImageView)
             $0.leading.equalTo(itemImageView.snp.leading)
             $0.trailing.equalTo(itemImageView.snp.trailing)
             $0.height.equalTo(25)
