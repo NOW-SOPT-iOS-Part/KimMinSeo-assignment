@@ -36,7 +36,6 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
         setStyle()
         setLayout()
         setDelegate()
-        
         bindNickname()
     }
     

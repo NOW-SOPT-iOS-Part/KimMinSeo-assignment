@@ -41,7 +41,7 @@ class BottomSheetViewController: UIViewController {
             guard let self = self else { return }
             self.view.addSubview(view)
         }
-        dimmedView.translatesAutoresizingMaskIntoConstraints = false
+       
         dimmedView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview()
@@ -69,7 +69,6 @@ class BottomSheetViewController: UIViewController {
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(52)
-            $0.width.equalTo(56)
         }
         
         airpodMax.snp.makeConstraints {
@@ -78,9 +77,7 @@ class BottomSheetViewController: UIViewController {
         }
         
         saveButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(20)
-            $0.leading.equalToSuperview().inset(20)
-            $0.trailing.equalToSuperview().inset(20)
+            $0.bottom.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(52)
         }
         
