@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 
 final class LoginView: UIView {
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -19,8 +19,8 @@ final class LoginView: UIView {
     let idTextField = UITextField()
     let passwordTextField = UITextField()
     lazy var loginButton = UIButton()
-    private let hiddenIcon = UIButton()
-    private let deleteIcon = UIButton()
+    let hiddenIcon = UIButton()
+    let deleteIcon = UIButton()
     private let findId = UILabel()
     private let findPassword = UILabel()
     private let askAccount = UILabel()
@@ -39,10 +39,13 @@ final class LoginView: UIView {
             findPassword,
             askAccount,
             createNickname,
-            centerLine
+            centerLine,
+            deleteIcon,
+            hiddenIcon
         ].forEach {
             self.addSubview($0)
         }
+        
         
         loginLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(112)
@@ -99,11 +102,17 @@ final class LoginView: UIView {
             $0.height.equalTo(12)
         }
         
-        let rightView = UIStackView(arrangedSubviews: [deleteIcon, hiddenIcon])
-        rightView.axis = .horizontal
-        rightView.spacing = 14
-        passwordTextField.rightView = rightView
-        passwordTextField.rightViewMode = .always
+        deleteIcon.snp.makeConstraints {
+            $0.trailing.equalTo(hiddenIcon.snp.leading).offset(-16)
+            $0.centerY.equalTo(passwordTextField)
+            $0.width.height.equalTo(20)
+        }
+        
+        hiddenIcon.snp.makeConstraints {
+            $0.trailing.equalTo(passwordTextField).offset(-20)
+            $0.centerY.equalTo(passwordTextField)
+            $0.width.height.equalTo(20)
+        }
     }
     
     private func setStyle() {
@@ -144,11 +153,14 @@ final class LoginView: UIView {
             $0.leftViewMode = .always
             $0.textColor = UIColor(resource: .gray2)
             $0.isSecureTextEntry = true
+            //눈 아이콘 추가
+            $0.rightView = hiddenIcon
+            //클리어 버튼 추가
+            $0.rightView = deleteIcon
             
-            // placeholder의 색상을 변경
             let attributes: [NSAttributedString.Key: Any] = [
-                .foregroundColor: UIColor.gray2, // 변경하고자 하는 색상
-                .font: UIFont(name: "Pretendard-Semibold", size: 15) ?? UIFont.systemFont(ofSize: 15) // 폰트 설정 (nil 방지를 위한 기본 폰트)
+                .foregroundColor: UIColor.gray2,
+                .font: UIFont(name: "Pretendard-Semibold", size: 15) ?? UIFont.systemFont(ofSize: 15)
             ]
             let attributedPlaceholder = NSAttributedString(string: "비밀번호", attributes: attributes)
             $0.attributedPlaceholder = attributedPlaceholder
@@ -174,7 +186,7 @@ final class LoginView: UIView {
         }
         
         deleteIcon.do {
-            $0.setImage(UIImage(systemName: "x.circle"), for: .normal)
+            $0.setImage(UIImage(resource: .xCircle), for: .normal)
         }
         
         findId.do {
@@ -214,31 +226,3 @@ final class LoginView: UIView {
     }
 }
 
-final class LoginViewController_CustomView: UIViewController {
-
-    private let rootView = LoginView()
-
-    override func loadView() {
-        self.view = rootView
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.view.backgroundColor = .black  // 배경색을 검정색으로 설정합니다.
-        setTarget()
-    }
-
-    private func setTarget() {
-        rootView.loginButton.addTarget(self, action: #selector(loginButtonDidTap), for: .touchUpInside)
-    }
-
-    @objc private func loginButtonDidTap() {
-        pushToWelcomeVC()
-    }
-
-    private func pushToWelcomeVC() {
-        let welcomeViewController = WelcomeViewController()
-        self.navigationController?.pushViewController(welcomeViewController, animated: true)
-    }
-}
