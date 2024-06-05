@@ -18,9 +18,7 @@ final class MainViewController: UITabBarController{
         super.viewDidLoad()
         
         setTabbar()
-        setAttribute()
-        
-        
+        setAttribute()  
     }
     
     // MARK: - Tabbar Setting

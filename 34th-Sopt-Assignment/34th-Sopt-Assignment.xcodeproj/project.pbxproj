@@ -37,6 +37,13 @@
 		0D9C3A6F2BED272F009017EA /* MovieTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9C3A6E2BED272F009017EA /* MovieTargetType.swift */; };
 		0D9C3A712BED302F009017EA /* MovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9C3A702BED302F009017EA /* MovieService.swift */; };
 		0DDAD0AA2BCD4EAE00047146 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDAD0A92BCD4EAE00047146 /* BottomSheetViewController.swift */; };
+		0DDADFEE2C1035DC0035C67A /* LoginViewController_MVVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDADFED2C1035DC0035C67A /* LoginViewController_MVVM.swift */; };
+		0DDADFF02C1035FC0035C67A /* LoginViewController_MVVMObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDADFEF2C1035FC0035C67A /* LoginViewController_MVVMObservable.swift */; };
+		0DDADFF22C10360F0035C67A /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDADFF12C10360F0035C67A /* LoginViewModel.swift */; };
+		0DDADFF42C10362D0035C67A /* LoginViewModel_Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDADFF32C10362D0035C67A /* LoginViewModel_Observable.swift */; };
+		0DDADFF62C1036620035C67A /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDADFF52C1036620035C67A /* Toast.swift */; };
+		0DDADFF82C1036740035C67A /* ObservablePattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDADFF72C1036740035C67A /* ObservablePattern.swift */; };
+		0DDADFFA2C1036F10035C67A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDADFF92C1036F10035C67A /* LoginView.swift */; };
 		0DEEBBE72BD8C7B000B18B5B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEEBBE62BD8C7B000B18B5B /* HomeViewController.swift */; };
 		0DEEBBEC2BD9093000B18B5B /* ContentResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEEBBEB2BD9093000B18B5B /* ContentResponseModel.swift */; };
 		0DF11E092BEA8CC1002CDD1F /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 0DF11E082BEA8CC1002CDD1F /* CombineMoya */; };
@@ -78,6 +85,13 @@
 		0D9C3A6E2BED272F009017EA /* MovieTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTargetType.swift; sourceTree = "<group>"; };
 		0D9C3A702BED302F009017EA /* MovieService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieService.swift; sourceTree = "<group>"; };
 		0DDAD0A92BCD4EAE00047146 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
+		0DDADFED2C1035DC0035C67A /* LoginViewController_MVVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController_MVVM.swift; sourceTree = "<group>"; };
+		0DDADFEF2C1035FC0035C67A /* LoginViewController_MVVMObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController_MVVMObservable.swift; sourceTree = "<group>"; };
+		0DDADFF12C10360F0035C67A /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		0DDADFF32C10362D0035C67A /* LoginViewModel_Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel_Observable.swift; sourceTree = "<group>"; };
+		0DDADFF52C1036620035C67A /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		0DDADFF72C1036740035C67A /* ObservablePattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservablePattern.swift; sourceTree = "<group>"; };
+		0DDADFF92C1036F10035C67A /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		0DEEBBE62BD8C7B000B18B5B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		0DEEBBEB2BD9093000B18B5B /* ContentResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentResponseModel.swift; sourceTree = "<group>"; };
 		0DF11E132BEA9030002CDD1F /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
@@ -146,6 +160,7 @@
 				0D41596F2BC0EFBF0020C0C5 /* LoginViewController.swift */,
 				0DDAD0A92BCD4EAE00047146 /* BottomSheetViewController.swift */,
 				0D4159712BC0EFE00020C0C5 /* WelcomeViewController.swift */,
+				0DDADFEC2C1034E90035C67A /* Refactor */,
 				0DEEBBE82BD8DA7600B18B5B /* Main */,
 				0D41595F2BC0EC850020C0C5 /* Main.storyboard */,
 				0D4159622BC0EC860020C0C5 /* Assets.xcassets */,
@@ -194,6 +209,20 @@
 				0D9C3A702BED302F009017EA /* MovieService.swift */,
 			);
 			path = Moya;
+			sourceTree = "<group>";
+		};
+		0DDADFEC2C1034E90035C67A /* Refactor */ = {
+			isa = PBXGroup;
+			children = (
+				0DDADFED2C1035DC0035C67A /* LoginViewController_MVVM.swift */,
+				0DDADFEF2C1035FC0035C67A /* LoginViewController_MVVMObservable.swift */,
+				0DDADFF12C10360F0035C67A /* LoginViewModel.swift */,
+				0DDADFF32C10362D0035C67A /* LoginViewModel_Observable.swift */,
+				0DDADFF52C1036620035C67A /* Toast.swift */,
+				0DDADFF72C1036740035C67A /* ObservablePattern.swift */,
+				0DDADFF92C1036F10035C67A /* LoginView.swift */,
+			);
+			path = Refactor;
 			sourceTree = "<group>";
 		};
 		0DEEBBE82BD8DA7600B18B5B /* Main */ = {
@@ -301,24 +330,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0DDADFF22C10360F0035C67A /* LoginViewModel.swift in Sources */,
 				0DEEBBE72BD8C7B000B18B5B /* HomeViewController.swift in Sources */,
 				0D95BAD72BE0987F000E6FEB /* MainPosterCollectionViewCell.swift in Sources */,
 				0DEEBBEC2BD9093000B18B5B /* ContentResponseModel.swift in Sources */,
 				0DF11E1A2BEA96DD002CDD1F /* MoyaLoggingPlugin.swift in Sources */,
+				0DDADFEE2C1035DC0035C67A /* LoginViewController_MVVM.swift in Sources */,
 				0D95BACD2BE01101000E6FEB /* ExpectedViewController.swift in Sources */,
 				0D95BAD92BE0CCBE000E6FEB /* CarouselViewController.swift in Sources */,
 				0D4159702BC0EFBF0020C0C5 /* LoginViewController.swift in Sources */,
 				0D95BAD32BE08CA9000E6FEB /* MainPosterModel.swift in Sources */,
 				0D95BACF2BE01119000E6FEB /* SearchViewController.swift in Sources */,
 				0DF11E1C2BEA96FD002CDD1F /* NetworkResult.swift in Sources */,
+				0DDADFF02C1035FC0035C67A /* LoginViewController_MVVMObservable.swift in Sources */,
 				0D95BAC92BE00887000E6FEB /* MainViewController.swift in Sources */,
 				0DDAD0AA2BCD4EAE00047146 /* BottomSheetViewController.swift in Sources */,
 				0D03C5622BDBB13700CCA04C /* ContentCollectionViewCell.swift in Sources */,
 				0D4159722BC0EFE00020C0C5 /* WelcomeViewController.swift in Sources */,
 				0D9C3A712BED302F009017EA /* MovieService.swift in Sources */,
 				0D41595A2BC0EC850020C0C5 /* AppDelegate.swift in Sources */,
+				0DDADFF82C1036740035C67A /* ObservablePattern.swift in Sources */,
+				0DDADFF42C10362D0035C67A /* LoginViewModel_Observable.swift in Sources */,
+				0DDADFFA2C1036F10035C67A /* LoginView.swift in Sources */,
 				0D9C3A6F2BED272F009017EA /* MovieTargetType.swift in Sources */,
 				0DF11E142BEA9030002CDD1F /* Config.swift in Sources */,
+				0DDADFF62C1036620035C67A /* Toast.swift in Sources */,
 				0D41595C2BC0EC850020C0C5 /* SceneDelegate.swift in Sources */,
 				0D95BAD12BE01126000E6FEB /* HistoryViewController.swift in Sources */,
 			);
