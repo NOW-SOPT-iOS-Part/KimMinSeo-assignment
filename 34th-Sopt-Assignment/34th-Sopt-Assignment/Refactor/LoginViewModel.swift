@@ -22,10 +22,11 @@ final class LoginViewModel {
             return
         }
         
-        let idRegEx = "[A-Za-z0-9]{5,13}"
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         let pwRegEx = "[A-Za-z0-9!_@$%^&+=]{8,20}"
         
-        if id.range(of: idRegEx, options: .regularExpression) == nil {
+        if id.range(of: emailRegEx, options: .regularExpression) == nil {
             errMessage?("아이디가 유효하지 않습니다.")
             return
         }
