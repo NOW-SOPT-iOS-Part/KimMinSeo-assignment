@@ -5,27 +5,24 @@
 //  Created by 김민서 on 2024/04/06.
 //
 
-import Foundation
 import UIKit
-import Then//Then 라이브러리
+import Then
 import SnapKit
 
-//1.프로토콜 생성
+// 1. 프로토콜 생성
 protocol DataBindProtocol: AnyObject {
     func dataBind(id: String?)
 }
 
 final class WelcomeViewController: UIViewController {
-    //2. delegate 프로퍼티 선언
+    // 2. delegate 프로퍼티 선언
     weak var delegate: DataBindProtocol?
     
     private var id: String?
     
     private let tvingImage = UIImageView(image: .tving)
-    private lazy var backButton = UIButton()
     private let welcomeText = UILabel()
     private lazy var mainButton = UIButton()
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,19 +31,16 @@ final class WelcomeViewController: UIViewController {
         bindID()
     }
     
-    
-    private func setStyle(){
-        backButton.do {
-            $0.setImage(UIImage(resource: .beforeBtn), for: .normal)
-        }
+    private func setStyle() {
+        navigationItem.hidesBackButton = true
         
+
         welcomeText.do {
             $0.text = "@@@님\n반가워요!"
             $0.textColor = UIColor(resource: .gray1)
             $0.textAlignment = .center
             $0.numberOfLines = 2
             $0.font = UIFont(name: "Pretendard-Bold", size: 23)
-            
         }
         
         mainButton.do {
@@ -61,23 +55,16 @@ final class WelcomeViewController: UIViewController {
     
     private func setLayout() {
         self.view.backgroundColor = .black
-        [tvingImage, backButton, welcomeText, mainButton].forEach { [weak self] view in
+        [tvingImage, welcomeText, mainButton].forEach { [weak self] view in
             guard let self = self else { return }
             self.view.addSubview(view)
         }
         
-        backButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(46)
-            $0.leading.equalToSuperview().inset(20)
-            $0.width.equalTo(15)
-            $0.height.equalTo(28)
-        }
+
         
         tvingImage.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(80)
-            $0.leading.equalToSuperview()
-            $0.trailing.equalToSuperview()
-            $0.width.equalTo(375)
+            $0.top.equalToSuperview().inset(70)
+            $0.leading.trailing.equalToSuperview() // 이미지 뷰의 leading과 trailing을 superview에 맞춤
             $0.height.equalTo(211)
         }
         
@@ -93,34 +80,26 @@ final class WelcomeViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(52)
         }
-        
     }
+    
     @objc
     private func mainButtonDidTap() {
-        pushToWelcomeVC()
+        pushToMainVC()
     }
-    //데이터 바인딩 함수 구현 -> 옵셔널 바인딩 사용
+    
+    // 데이터 바인딩 함수 구현 -> 옵셔널 바인딩 사용
     private func bindID() {
         guard let idText = id else { return }
-        self.welcomeText.text="\(idText)님\n반가워요!"
+        self.welcomeText.text = "\(idText)님\n반가워요!"
     }
     
     func setLabelText(id: String?) {
         self.id = id
     }
-    //화면 전환
-    private func pushToWelcomeVC() {
+    
+    // 화면 전환
+    private func pushToMainVC() {
         let mainViewController = MainViewController()
         self.navigationController?.pushViewController(mainViewController, animated: true)
     }
-    
-    @objc
-    private func backToLoginButtonDidTap() {
-        if let id = id {
-            delegate?.dataBind(id: id)
-        }
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    
 }

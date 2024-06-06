@@ -1,9 +1,11 @@
 //
-//  ObservablePattern.swift
+//  Observable.swift
 //  34th-Sopt-Assignment
 //
-//  Created by 김민서 on 6/5/24.
+//  Created by 김민서 on 6/7/24.
 //
+
+import UIKit
 
 class ObservablePattern<T> { // --- a
 
@@ -24,4 +26,5 @@ class ObservablePattern<T> { // --- a
         self.listener = listener
     }
 }
+
 

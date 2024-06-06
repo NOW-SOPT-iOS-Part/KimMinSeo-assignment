@@ -24,12 +24,14 @@ class BottomSheetViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setStyle()
         setLayout()
     }
     
 
     private func setLayout() {
+        
         [
             dimmedView,
             bottomSheetView,

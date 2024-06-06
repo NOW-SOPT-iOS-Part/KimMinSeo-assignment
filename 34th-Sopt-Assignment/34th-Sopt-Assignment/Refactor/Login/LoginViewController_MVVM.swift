@@ -13,7 +13,6 @@ final class LoginViewController_MVVM: UIViewController {
     private let rootView = LoginView()
     private let viewModel = LoginViewModel()
     
-    // 편의 변수를 정의하여 rootView의 서브뷰에 접근
     private var idTextField: UITextField { return rootView.idTextField }
     private var passwordTextField: UITextField { return rootView.passwordTextField }
     private var loginButton: UIButton { return rootView.loginButton }
@@ -42,19 +41,20 @@ final class LoginViewController_MVVM: UIViewController {
         passwordTextField.addTarget(self, action: #selector(textFieldDidBeginEditing(_:)), for: .editingDidBegin)
         idTextField.addTarget(self, action: #selector(textFieldDidEndEditing(_:)), for: .editingDidEnd)
         passwordTextField.addTarget(self, action: #selector(textFieldDidEndEditing(_:)), for: .editingDidEnd)
+        
+        idTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .editingChanged)
+        passwordTextField.addTarget(self, action: #selector(textFieldDidChangeSelection(_:)), for: .editingChanged)
     }
     
     private func bindViewModel() {
-        viewModel.isValid = { [weak self] isValid in
-            if isValid {
-                self?.pushToWelcomeVC()
-            }
+        viewModel.isValid.bind { [weak self] isValid in
+            guard let isValid else { return }
+            if isValid { self?.pushToWelcomeVC() }
         }
         
-        viewModel.errMessage = { [weak self] err in
-            if let err = err {
-                self?.showToast(err)
-            }
+        viewModel.errMessage.bind { [weak self] err in
+            guard let err else { return }
+            self?.showToast(err!)
         }
     }
     
@@ -78,7 +78,9 @@ final class LoginViewController_MVVM: UIViewController {
     }
     
     private func pushToWelcomeVC() {
-        let welcomeViewController = WelcomeViewController()
+        let userId = idTextField.text ?? ""
+        let welcomeViewModel = WelcomeViewModel(id: userId)
+        let welcomeViewController = WelcomeViewController_MVVM(viewModel: welcomeViewModel)
         self.navigationController?.pushViewController(welcomeViewController, animated: true)
     }
     
@@ -101,7 +103,28 @@ final class LoginViewController_MVVM: UIViewController {
             deleteIcon.isHidden = false
         }
     }
-
+    
+    // 텍스트 필드 내용이 변경될 때 호출되는 메서드
+    @objc func textFieldDidChangeSelection(_ textField: UITextField) {
+        // 입력된 아이디와 비밀번호가 유효한지 확인
+        let isIdValid = viewModel.isValidId(idTextField.text ?? "")
+        let isPasswordValid = viewModel.isValidPassword(passwordTextField.text ?? "")
+        
+        // 아이디와 비밀번호가 모두 유효한 경우 로그인 버튼 활성화
+        let isLoginEnabled = isIdValid && isPasswordValid
+        
+        // 로그인 버튼의 스타일 변경
+        if isLoginEnabled {
+            loginButton.backgroundColor = UIColor(resource: .main)
+            loginButton.setTitleColor(.white, for: .normal)
+            loginButton.layer.borderColor = UIColor.gray4.cgColor
+        } else {
+            loginButton.backgroundColor = .black
+            loginButton.setTitleColor(UIColor(resource: .gray2), for: .normal)
+            loginButton.layer.borderColor = UIColor.gray4.cgColor
+        }
+    }
+    
     @objc func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == passwordTextField {
             hiddenIcon.isHidden = true
@@ -119,3 +142,4 @@ final class LoginViewController_MVVM: UIViewController {
         textField.layer.borderWidth = 0.0
     }
 }
+

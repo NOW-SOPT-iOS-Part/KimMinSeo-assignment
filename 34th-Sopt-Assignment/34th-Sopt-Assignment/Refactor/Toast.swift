@@ -19,8 +19,9 @@ final class Toast: UIView {
     {
         let toastLabel = UILabel()
         
-        self.backgroundColor = .black
+        self.backgroundColor = .gray5
         self.alpha = 1
+        self.layer.cornerRadius = 9
         self.isUserInteractionEnabled = false
         
         
@@ -30,6 +31,7 @@ final class Toast: UIView {
         toastLabel.clipsToBounds = true
         toastLabel.numberOfLines = 0
         toastLabel.sizeToFit()
+        toastLabel.font = UIFont(name: "Pretendard-Semibold", size: 14)
     
         
         view.addSubview(self)
@@ -43,9 +45,10 @@ final class Toast: UIView {
         
         toastLabel.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(24)
-            $0.verticalEdges.equalToSuperview().inset(12)
+            $0.verticalEdges.equalToSuperview().inset(14)
         }
         
+        //우와 애니메이션이다
         UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseIn, animations: {
             self.alpha = 1.0
         }, completion: { _ in
